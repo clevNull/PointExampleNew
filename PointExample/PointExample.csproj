@@ -68,7 +68,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logic\Logic.cs" />
-    <Compile Include="Model\DbConnect.cs" />
+    <Compile Include="Model\DbWorker.cs" />
     <Compile Include="View\DataGenerationWindow.xaml.cs">
       <DependentUpon>DataGenerationWindow.xaml</DependentUpon>
     </Compile>
