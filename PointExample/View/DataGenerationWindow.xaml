@@ -1,0 +1,23 @@
+﻿<Window x:Class="PointExample.View.DataGenerationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PointExample.View"
+        mc:Ignorable="d"
+        Title="Формирование данных" Height="329.131" Width="503.814">
+    <Grid>
+        <GroupBox x:Name="groupBox" Header="Формирование" HorizontalAlignment="Left" Height="216" Margin="10,10,0,0" VerticalAlignment="Top" Width="476">
+            <Grid>
+                <Button x:Name="DataGenBtn" Content="Сформировать" HorizontalAlignment="Right" Margin="0,164,10,10" Width="148"/>
+                <Label x:Name="label" Content="1000" HorizontalAlignment="Left" Margin="10,32,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label1" Content="10000" HorizontalAlignment="Left" Margin="411,32,0,0" VerticalAlignment="Top"/>
+                <TextBlock x:Name="CountBlock" HorizontalAlignment="Left" Margin="200,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <Slider x:Name="CountSldr" HorizontalAlignment="Left" Margin="25,63,0,0" VerticalAlignment="Top" Width="416" Maximum="10000" Minimum="1000" SmallChange="1" IsSelectionRangeEnabled="True" ValueChanged="CountSldr_ValueChanged"/>
+
+            </Grid>
+        </GroupBox>
+        <Button x:Name="DbConnBtn" Content="Подключение к БД" Margin="0,257,10,10" HorizontalAlignment="Right" Width="121" Click="DbConnBtn_Click"/>
+
+    </Grid>
+</Window>
