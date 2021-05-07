@@ -8,12 +8,18 @@
         Title="Формирование данных" Height="329.131" Width="503.814">
     <Grid>
         <GroupBox x:Name="groupBox" Header="Формирование" HorizontalAlignment="Left" Height="216" Margin="10,10,0,0" VerticalAlignment="Top" Width="476">
-            <Grid>
+            <Grid Margin="2,0,-2,-0.4">
                 <Button x:Name="DataGenBtn" Content="Сформировать" HorizontalAlignment="Right" Margin="0,164,10,10" Width="148"/>
-                <Label x:Name="label" Content="1000" HorizontalAlignment="Left" Margin="10,32,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="label1" Content="10000" HorizontalAlignment="Left" Margin="411,32,0,0" VerticalAlignment="Top"/>
-                <TextBlock x:Name="CountBlock" HorizontalAlignment="Left" Margin="200,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                <Slider x:Name="CountSldr" HorizontalAlignment="Left" Margin="25,63,0,0" VerticalAlignment="Top" Width="416" Maximum="10000" Minimum="1000" SmallChange="1" IsSelectionRangeEnabled="True" ValueChanged="CountSldr_ValueChanged"/>
+                <Label x:Name="label" Content="1000" HorizontalAlignment="Left" Margin="10,107,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label1" Content="10000" HorizontalAlignment="Left" Margin="411,107,0,0" VerticalAlignment="Top"/>
+                <TextBlock x:Name="CountBlock" HorizontalAlignment="Left" Margin="211,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46"/>
+                <TextBlock x:Name="CustomerBlock" HorizontalAlignment="Left" Margin="211,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46"/>
+                <Slider x:Name="CountSldr" HorizontalAlignment="Left" Margin="25,138,0,0" VerticalAlignment="Top" Width="416" Maximum="10000" Minimum="1000" SmallChange="1" IsSelectionRangeEnabled="True" ValueChanged="CountSldr_ValueChanged"/>
+                <Slider x:Name="CustomerSldr" HorizontalAlignment="Left" Margin="25,63,0,0" VerticalAlignment="Top" Width="416" Maximum="20" Minimum="10" SmallChange="1" IsSelectionRangeEnabled="True" ValueChanged="CustomerSldr_ValueChanged"/>
+                <Label x:Name="label_Copy" Content="10" HorizontalAlignment="Left" Margin="16,32,0,0" VerticalAlignment="Top" Width="29"/>
+                <Label x:Name="label1_Copy" Content="20" HorizontalAlignment="Left" Margin="411,32,0,0" VerticalAlignment="Top" Width="30"/>
+                <Label x:Name="label_Copy1" Content="Заказы" HorizontalAlignment="Left" Margin="50,89,0,0" VerticalAlignment="Top" Width="61"/>
+                <Label x:Name="label_Copy2" Content="Покупатели" HorizontalAlignment="Left" Margin="50,14,0,0" VerticalAlignment="Top" Width="78"/>
 
             </Grid>
         </GroupBox>

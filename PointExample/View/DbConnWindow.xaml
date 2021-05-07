@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PointExample.View"
         mc:Ignorable="d"
-        Title="Подключение к БД" Height="383" Width="800">
+        Title="Подключение к БД" Height="383" Width="607.814">
     <Grid>
-        <GroupBox x:Name="groupBox" Header="Подключение" Margin="10,10,357,10">
+        <GroupBox x:Name="groupBox" Header="Подключение" Margin="10,10,238.6,9.6">
             <Grid Margin="0,0,0,0">
                 <Label x:Name="label" Content="Наименование" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
                 <TextBox x:Name="textBox" Height="23" Margin="10,41,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
@@ -19,8 +19,8 @@
                 <TextBox x:Name="textBox3" Height="23" Margin="10,274,213,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
             </Grid>
         </GroupBox>
-        <Button x:Name="DbConnBtn" Content="Подключиться" HorizontalAlignment="Left" Margin="497,69,0,0" VerticalAlignment="Top" Width="184"/>
-        <Button x:Name="CrtConnBtn" Content="Создать" HorizontalAlignment="Left" Margin="497,149,0,0" VerticalAlignment="Top" Width="184"/>
+        <Button x:Name="CrtConnBtn" Content="Создать" HorizontalAlignment="Left" Margin="392,70,0,0" VerticalAlignment="Top" Width="184"/>
+        <Button x:Name="CrtConnBtn_Copy" Content="Удалить" HorizontalAlignment="Left" Margin="392,122,0,0" VerticalAlignment="Top" Width="184"/>
 
     </Grid>
 </Window>

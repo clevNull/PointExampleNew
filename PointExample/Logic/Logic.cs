@@ -3,50 +3,100 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace PointExample.Logic
 {
     class Logic
     {
-        private List<string> maleFirstNames = new List<string>();
-        private List<string> maleMiddleNames = new List<string>();
-        private List<string> maleLastNames = new List<string>();
+        private string[] maleFirstNames;
+        private string[] maleMiddleNames;
+        private string[] maleLastNames;
 
-        private List<string> femaleFirstNames = new List<string>();
-        private List<string> femaleMiddleNames = new List<string>();
-        private List<string> femaleLastNames = new List<string>();
+        private string[] femaleFirstNames;
+        private string[] femaleMiddleNames;
+        private string[] femaleLastNames;
 
-        private List<string> Sex = new List<string>();
+        private string[] Sex;
 
         private void CreationTestData ()
         {
-            maleFirstNames.AddRange(new string[] { "Александр", "Алексей", "Борис", 
+            maleFirstNames = new string[] { "Александр", "Алексей", "Борис", 
                 "Виктор", "Георгий", "Григорий", "Константин", 
-                "Иван", "Евгений", "Сергей" });
-            maleLastNames.AddRange(new string[] { "Иванов", "Петров", "Сидоров",
+                "Иван", "Евгений", "Сергей" };
+            maleLastNames = new string[] { "Иванов", "Петров", "Сидоров",
                 "Александров", "Капилевич", "Батыгин", "Самсонов",
-                "Егоров", "Школьник", "Баранов"});
-            maleMiddleNames.AddRange(new string[] { "Александрович", "Алексеевич", "Борисович",
+                "Егоров", "Школьник", "Баранов"};
+            maleMiddleNames = new string[] { "Александрович", "Алексеевич", "Борисович",
                 "Викторович", "Георгиевич", "Григорьевич", "Константинович",
-                "Иванович", "Евгеньевич", "Сергеевич" });
+                "Иванович", "Евгеньевич", "Сергеевич" };
 
-            femaleFirstNames.AddRange(new string[] { "Александра", "Варвава", "Вероника",
+            femaleFirstNames = new string[] { "Александра", "Варвава", "Вероника",
                 "Галина", "Дарья", "Елена", "Жанна",
-                "Зоя", "Ирина", "Лия" });
-            femaleLastNames.AddRange(new string[] { "Иванова", "Петрова", "Сидорова",
+                "Зоя", "Ирина", "Лия" };
+            femaleLastNames = new string[] { "Иванова", "Петрова", "Сидорова",
                 "Александрова", "Койхман", "Батыгина", "Самсонова",
-                "Егорова", "Пустова", "Баранова"});
-            femaleMiddleNames.AddRange(new string[] { "Александровна", "Алексеевна", "Борисовна",
+                "Егорова", "Пустова", "Баранова"};
+            femaleMiddleNames = new string[] { "Александровна", "Алексеевна", "Борисовна",
                 "Викторовна", "Георгиевна", "Григорьевна", "Константиновна",
-                "Ивановна", "Евгеньевна", "Сергеевна" });
+                "Ивановна", "Евгеньевна", "Сергеевна" };
 
-            Sex.AddRange(new string[] { "Мужской", "Женский" });
+            Sex = new string[] { "Мужской", "Женский" };
         }
 
          
-        public void FillingTables ()
+        public void FillCustomerTables (int countUsers)
         {
-            maleNames
+            string customerSql = "INSERT INTO dbo.Customers(ID,LastName,FirstName,MiddleName,Sex,BirthDate,RegistrationDate) VALUES(@pr1,@pr2,@pr3,@pr4,@pr5,@pr6,@pr7)";
+            
+            Random rnd;
+            DateTime date, dateReg;
+            for (decimal i = 0; i < countUsers; i++)
+            {
+                rnd = new Random();
+                date = new DateTime(rnd.Next(1946, 2020), rnd.Next(1, 12), rnd.Next(1, 30));
+                dateReg = new DateTime(rnd.Next(2010, 2020), rnd.Next(1, 12), rnd.Next(1, 30));
+
+                SqlCommand cmd = new SqlCommand(customerSql);
+                cmd.Parameters.AddWithValue("@pr1", i);
+                
+                if (i%2==0)
+                {
+                    cmd.Parameters.AddWithValue("@pr2", maleLastNames.GetValue(rnd.Next(10)));
+                    cmd.Parameters.AddWithValue("@pr3", maleFirstNames.GetValue(rnd.Next(10)));
+                    cmd.Parameters.AddWithValue("@pr4", maleMiddleNames.GetValue(rnd.Next(10)));
+                    cmd.Parameters.AddWithValue("@pr5", Sex.GetValue(0));
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@pr2", maleLastNames.GetValue(rnd.Next(10)));
+                    cmd.Parameters.AddWithValue("@pr3", maleFirstNames.GetValue(rnd.Next(10)));
+                    cmd.Parameters.AddWithValue("@pr4", maleMiddleNames.GetValue(rnd.Next(10)));
+                    cmd.Parameters.AddWithValue("@pr5", Sex.GetValue(0));
+                }
+                cmd.Parameters.AddWithValue("@pr6", date);
+                cmd.Parameters.AddWithValue("@pr7", dateReg);
+            }
         }
+
+        public void FillOrderTables(int countOrders, int countUsers)
+        {
+            Random rnd;
+            DateTime orderDate;
+
+            string countSql = "INSERT INTO dbo.Orders(ID,CustomerID,OrderDate,Price) VALUES(@pr1,@pr2,@pr3,@pr4)";
+
+            for (decimal i = 0; i < countOrders; i++)
+            {
+                SqlCommand cmd = new SqlCommand(countSql);
+                rnd = new Random();
+
+                cmd.Parameters.AddWithValue("@pr1", i);
+                cmd.Parameters.AddWithValue("@pr2", rnd.Next(countUsers));
+
+
+            }
+         }
     }
 }

@@ -36,9 +36,9 @@ namespace PointExample.View
             CountBlock.Text = Convert.ToInt32(CountSldr.Value).ToString();
         }
 
-        private void CountSldr_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        private void CustomerSldr_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-
+            CustomerBlock.Text = Convert.ToInt32(CustomerSldr.Value).ToString();
         }
     }
 }

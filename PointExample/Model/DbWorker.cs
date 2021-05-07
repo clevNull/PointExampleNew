@@ -138,6 +138,26 @@ namespace PointExample.Model
                     conn.Close();
             }
         }
+        public void ExecuteQuery(SqlCommand cmd, SqlConnection conn, DbParams contact)
+        {
+            cmd.Connection = conn;
+
+            try
+            {
+                if (conn.State != ConnectionState.Open)
+                    conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (System.Exception ex)
+            {
+                //nothing yet
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+            }
+        }
     }
 
 }

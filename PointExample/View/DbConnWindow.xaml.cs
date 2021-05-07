@@ -21,7 +21,7 @@ namespace PointExample.View
     /// </summary>
     public partial class DbConnWindow : Window
     {
-        public DbWorker dbconn = new DbWorker();
+       // public DbWorker dbconn = new DbWorker();
         public DbConnWindow()
         {
             InitializeComponent();
