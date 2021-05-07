@@ -10,17 +10,13 @@ namespace PointExample.Model
 {
     public class DbParams
     {
-        String dbName;
         String source;
         String port;
+        String dbName;
         String userName;
         String pass;
 
-        public String DbName
-            {
-                get { return dbName; }
-                set { dbName = value; }
-            }
+        
         public String Source
         {
             get { return source; }
@@ -30,6 +26,11 @@ namespace PointExample.Model
         {
             get { return port; }
             set { port = value; }
+        }
+        public String DbName
+        {
+            get { return dbName; }
+            set { dbName = value; }
         }
         public String UserName
         {
@@ -61,13 +62,38 @@ namespace PointExample.Model
                 connection.Open();
             }
             catch (System.Exception ex)
-            {
-                return null;
-            }
+            { throw ex; }
             finally
             {
-                //nothing yet
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
             }   
+            return connection;
+        }
+
+        public static SqlConnection ConnectToDb(DbParams contact)
+        {
+            SqlConnection connection = new SqlConnection();
+
+            string connStr = @"Data Source=" + contact.Source + ","
+                + contact.Port + ";" +
+                "Initial Catalog = " + contact.DbName + ";" +
+                 "Network Library=DBMSSOCN;" +
+                "User=" + contact.UserName + ";" +
+                "Password=" + contact.Pass + ";";
+
+            try
+            {
+                connection.ConnectionString = connStr;
+                connection.Open();
+            }
+            catch (System.Exception ex)
+            { throw ex; }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
             return connection;
         }
 
@@ -82,43 +108,70 @@ namespace PointExample.Model
 
     public class DBWorker
     {
-        public void CreateDB (SqlConnection conn, DbParams contact)
+        public void CreateDB (string dbName)
         {
-            string str = "CREATE DATABASE" + contact.DbName;
-            SqlCommand createDbComm = new SqlCommand(str, conn); 
+            string str = "CREATE DATABASE " + dbName;
+            SqlCommand createDbComm = new SqlCommand(str, App.SrvConn); 
             
             try
             {
-                if (conn.State != ConnectionState.Open)
-                    conn.Open();
+                if (App.SrvConn.State != ConnectionState.Open)
+                    App.SrvConn.Open();
                 createDbComm.ExecuteNonQuery();
             }
             catch (System.Exception ex)
-            {
-                //nothing yet
-            }
+            { throw ex; }
             finally
             {
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+                if (App.SrvConn.State == ConnectionState.Open)
+                    App.SrvConn.Close();
             }
         }
+
+        public bool checkDbExist (string dbName)
+        {
+            string cmdText = "select count(*) from master.dbo.sysdatabases where name=@database";
+            SqlCommand sqlCmd = new SqlCommand(cmdText, App.SrvConn);
+            sqlCmd.Parameters.Add("@database", System.Data.SqlDbType.NVarChar).Value = dbName;
+            try
+            {
+                if (App.SrvConn.State != ConnectionState.Open)
+                    App.SrvConn.Open();
+                sqlCmd.ExecuteScalar();
+                var i = Convert.ToInt32(sqlCmd.ExecuteScalar());
+                return Convert.ToBoolean(i);
+            }
+            catch (System.Exception ex)
+            { throw ex; }
+            finally
+            {
+                if (App.SrvConn.State == ConnectionState.Open)
+                    App.SrvConn.Close();
+            }
+
+        }
+        public void DeleteDb (string dbName)
+        {
+            string cmdText = "DROP DATABASE " + dbName;
+            SqlCommand sqlCmd = new SqlCommand(cmdText, App.SrvConn);
+
+            try
+            {
+                if (App.SrvConn.State != ConnectionState.Open)
+                    App.SrvConn.Open();
+                sqlCmd.ExecuteNonQuery();
+            }
+            catch (System.Exception ex)
+            { throw ex; }
+            finally
+            {
+                if (App.SrvConn.State == ConnectionState.Open)
+                    App.SrvConn.Close();
+            }
+
+        }
         
-        //Перенести в логику
-       /* string customerStr = "CREATE TABLE dbo.Customers + (" +
-                "ID DECIMAL CONSTRAINT CUST_PK PRIMARY KEY NONCLUSTERED," +
-                "LastName NVARCHAR(64)," +
-                "FirstName NVARCHAR(64)," +
-                "MiddleName NAVRCHAR(64)," +
-                "Sex NVARCHAR(32)," +
-                "BirthDate DATETIME," +
-                "RegistrationDate DATETIME )";
-        string ordersStr = "CREATE TABLE dbo.Orders (" +
-                "ID DECIMAL CONSTRAINT ORDER_PK PRIMARY KEY NONCLUSTERED," +
-                "CustomerID DECIMAL," +
-                "OrderDate DATETIME" +
-                "Price DECIMAL )";*/
-        public void ExecuteQuery(string queryStr,  SqlConnection conn, DbParams contact)
+        public void ExecuteQuery(SqlConnection conn, string queryStr)
         {
             SqlCommand query = new SqlCommand(queryStr, conn);
 
@@ -129,16 +182,14 @@ namespace PointExample.Model
                 query.ExecuteNonQuery();
             }
             catch (System.Exception ex)
-            {
-                //nothing yet
-            }
+            { throw ex; }
             finally
             {
                 if (conn.State == ConnectionState.Open)
                     conn.Close();
             }
         }
-        public void ExecuteQuery(SqlCommand cmd, SqlConnection conn, DbParams contact)
+        public void ExecuteStreamQuery(SqlConnection conn, SqlCommand cmd, int iter, decimal count)
         {
             cmd.Connection = conn;
 
@@ -149,16 +200,17 @@ namespace PointExample.Model
                 cmd.ExecuteNonQuery();
             }
             catch (System.Exception ex)
-            {
-                //nothing yet
-            }
+            { throw ex; }
             finally
-            {
-                if (conn.State == ConnectionState.Open)
-                    conn.Close();
+            { if (iter == count)
+                {
+                    if (conn.State == ConnectionState.Open)
+                        conn.Close();
+                }
             }
         }
-    }
+    } 
+
 
 }
 

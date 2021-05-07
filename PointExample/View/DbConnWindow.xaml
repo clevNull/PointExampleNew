@@ -5,22 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PointExample.View"
         mc:Ignorable="d"
-        Title="Подключение к БД" Height="383" Width="607.814">
+        Title="Подключение к БД" Height="262.075" Width="607.814">
     <Grid>
-        <GroupBox x:Name="groupBox" Header="Подключение" Margin="10,10,238.6,9.6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="359*"/>
+            <ColumnDefinition Width="242*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox x:Name="groupBox" Header="Подключение" Margin="10,10,240.333,5.667" Grid.ColumnSpan="2">
             <Grid Margin="0,0,0,0">
-                <Label x:Name="label" Content="Наименование" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
-                <TextBox x:Name="textBox" Height="23" Margin="10,41,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                <Label x:Name="label1" Content="Адрес" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" Width="100"/>
-                <TextBox x:Name="textBox1" Height="23" Margin="10,121,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                <Label x:Name="label2" Content="Имя пользователя" HorizontalAlignment="Left" Margin="10,184,0,0" VerticalAlignment="Top" Width="127"/>
-                <TextBox x:Name="textBox2" Height="23" Margin="10,215,213,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                <Label x:Name="label3" Content="Пароль" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top" Width="100"/>
-                <TextBox x:Name="textBox3" Height="23" Margin="10,274,213,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                <Label x:Name="label1" Content="Адрес" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Width="100"/>
+                <TextBox x:Name="addrBox" Height="23" Margin="10,46,128.333,0" TextWrapping="Wrap" Text="192.168.1.4" VerticalAlignment="Top"/>
+                <Label x:Name="label2" Content="Имя пользователя" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="127"/>
+                <TextBox x:Name="userNameBox" Height="23" Margin="10,101,212.333,0" TextWrapping="Wrap" Text="sa" VerticalAlignment="Top"/>
+                <Label x:Name="label3" Content="Пароль" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Width="100"/>
+                <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Margin="10,157,0,0" VerticalAlignment="Top" Width="118" Height="23"/>
+                <TextBox x:Name="portBox" Height="23" Margin="218,46,10.333,0" TextWrapping="Wrap" Text="49172" VerticalAlignment="Top"/>
+                <Label x:Name="label1_Copy" Content="Порт" HorizontalAlignment="Left" Margin="218,14,0,0" VerticalAlignment="Top" Width="100"/>
             </Grid>
         </GroupBox>
-        <Button x:Name="CrtConnBtn" Content="Создать" HorizontalAlignment="Left" Margin="392,70,0,0" VerticalAlignment="Top" Width="184"/>
-        <Button x:Name="CrtConnBtn_Copy" Content="Удалить" HorizontalAlignment="Left" Margin="392,122,0,0" VerticalAlignment="Top" Width="184"/>
+        <Button x:Name="SrvConnBtn" Content="Подключиться" HorizontalAlignment="Left" Margin="215,186,0,0" VerticalAlignment="Top" Width="132" Click="SrvConnBtn_Click" Height="21"/>
+        <GroupBox x:Name="groupBox1" Grid.Column="1" Header="Создание БД" HorizontalAlignment="Left" Height="217" Margin="9.667,10,0,0" VerticalAlignment="Top" Width="222">
+            <Grid HorizontalAlignment="Left" Height="199" VerticalAlignment="Top" Width="212" Margin="0,0,-2,-5">
+                <Label x:Name="label" Content="Наименование" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Width="100"/>
+                <TextBox x:Name="nameDbBox" Height="23" Margin="10,45,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                <Button x:Name="CrtDbBtn" Content="Создать" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Width="192" Height="21" Click="CrtDbBtn_Click"/>
+                <Button x:Name="DelDbBtn" Content="Удалить" HorizontalAlignment="Left" Margin="10,157,0,0" VerticalAlignment="Top" Width="192" Height="21" Click="DelDbBtn_Click"/>
+            </Grid>
+        </GroupBox>
 
     </Grid>
 </Window>

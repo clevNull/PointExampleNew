@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using PointExample.Logicum;
+
 namespace PointExample.View
 {
     /// <summary>
@@ -19,6 +21,9 @@ namespace PointExample.View
     /// </summary>
     public partial class DataGenerationWindow : Window
     {
+        ConncetionLogic DbConn = new ConncetionLogic();
+        Logic logicClass = new Logic();
+
         DbConnWindow dbConnWindow;
         public DataGenerationWindow()
         {
@@ -39,6 +44,16 @@ namespace PointExample.View
         private void CustomerSldr_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             CustomerBlock.Text = Convert.ToInt32(CustomerSldr.Value).ToString();
+        }
+
+        private void DataGenBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
         }
     }
 }

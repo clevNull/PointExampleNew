@@ -9,7 +9,7 @@
     <Grid>
         <GroupBox x:Name="groupBox" Header="Формирование" HorizontalAlignment="Left" Height="216" Margin="10,10,0,0" VerticalAlignment="Top" Width="476">
             <Grid Margin="2,0,-2,-0.4">
-                <Button x:Name="DataGenBtn" Content="Сформировать" HorizontalAlignment="Right" Margin="0,164,10,10" Width="148"/>
+                <Button x:Name="DataGenBtn" Content="Сформировать" HorizontalAlignment="Right" Margin="0,164,10,10" Width="148" Click="DataGenBtn_Click"/>
                 <Label x:Name="label" Content="1000" HorizontalAlignment="Left" Margin="10,107,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="label1" Content="10000" HorizontalAlignment="Left" Margin="411,107,0,0" VerticalAlignment="Top"/>
                 <TextBlock x:Name="CountBlock" HorizontalAlignment="Left" Margin="211,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="46"/>
