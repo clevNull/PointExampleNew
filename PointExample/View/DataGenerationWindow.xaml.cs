@@ -38,7 +38,7 @@ namespace PointExample.View
 
         private void CountSldr_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            CountBlock.Text = Convert.ToInt32(CountSldr.Value).ToString();
+            OrderBlock.Text = Convert.ToInt32(CountSldr.Value).ToString();
         }
 
         private void CustomerSldr_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -50,7 +50,8 @@ namespace PointExample.View
         {
             try
             {
-
+                logicClass.FillCustomerTables(Convert.ToInt32(CustomerBlock.Text));
+                logicClass.FillOrderTables(Convert.ToInt32(OrderBlock.Text), Convert.ToInt32(CustomerBlock.Text));
             }
             catch (Exception ex)
             { MessageBox.Show(ex.Message); }

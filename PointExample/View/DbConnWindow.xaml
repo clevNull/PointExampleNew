@@ -14,7 +14,7 @@
         <GroupBox x:Name="groupBox" Header="Подключение" Margin="10,10,240.333,5.667" Grid.ColumnSpan="2">
             <Grid Margin="0,0,0,0">
                 <Label x:Name="label1" Content="Адрес" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Width="100"/>
-                <TextBox x:Name="addrBox" Height="23" Margin="10,46,128.333,0" TextWrapping="Wrap" Text="192.168.1.4" VerticalAlignment="Top"/>
+                <TextBox x:Name="addrBox" Height="23" Margin="10,46,128.333,0" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Top"/>
                 <Label x:Name="label2" Content="Имя пользователя" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="127"/>
                 <TextBox x:Name="userNameBox" Height="23" Margin="10,101,212.333,0" TextWrapping="Wrap" Text="sa" VerticalAlignment="Top"/>
                 <Label x:Name="label3" Content="Пароль" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Width="100"/>
@@ -27,7 +27,7 @@
         <GroupBox x:Name="groupBox1" Grid.Column="1" Header="Создание БД" HorizontalAlignment="Left" Height="217" Margin="9.667,10,0,0" VerticalAlignment="Top" Width="222">
             <Grid HorizontalAlignment="Left" Height="199" VerticalAlignment="Top" Width="212" Margin="0,0,-2,-5">
                 <Label x:Name="label" Content="Наименование" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Width="100"/>
-                <TextBox x:Name="nameDbBox" Height="23" Margin="10,45,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                <TextBox x:Name="nameDbBox" Height="23" Margin="10,45,10,0" TextWrapping="Wrap" Text="testdb" VerticalAlignment="Top"/>
                 <Button x:Name="CrtDbBtn" Content="Создать" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Width="192" Height="21" Click="CrtDbBtn_Click"/>
                 <Button x:Name="DelDbBtn" Content="Удалить" HorizontalAlignment="Left" Margin="10,157,0,0" VerticalAlignment="Top" Width="192" Height="21" Click="DelDbBtn_Click"/>
             </Grid>

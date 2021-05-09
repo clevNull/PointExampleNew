@@ -143,39 +143,48 @@ namespace PointExample.Logicum
             string customerSql = "INSERT INTO dbo.Customers(ID,LastName,FirstName,MiddleName,Sex,BirthDate,RegistrationDate) VALUES(@pr1,@pr2,@pr3,@pr4,@pr5,@pr6,@pr7)";
 
             decimal i;
-            Random rnd;
-            DateTime date, dateReg;
+            Random rnd = new Random();
+            DateTime newDate, newDateReg = new DateTime();
+            DateTime date = new DateTime(1946, 1, 1);
+            DateTime dateReg = new DateTime(2010, 1, 1);
             var conn = App.DbConn;
+            int rangeDate = (DateTime.Today - date).Days;
+            int rangeReg = (DateTime.Today - dateReg).Days;
             try
             {
-                for (i = 0; i < countUsers; i++)
+                if (App.DbConn != null)
                 {
-                    rnd = new Random();
-                    date = new DateTime(rnd.Next(1946, 2020), rnd.Next(1, 12), rnd.Next(1, 30));
-                    dateReg = new DateTime(rnd.Next(2010, 2020), rnd.Next(1, 12), rnd.Next(1, 30));
-
-                    SqlCommand cmd = new SqlCommand(customerSql);
-                    cmd.Parameters.AddWithValue("@pr1", i);
-
-                    if (i % 2 == 0)
+                    for (i = 0; i < countUsers; i++)
                     {
-                        cmd.Parameters.AddWithValue("@pr2", maleLastNames.GetValue(rnd.Next(10)));
-                        cmd.Parameters.AddWithValue("@pr3", maleFirstNames.GetValue(rnd.Next(10)));
-                        cmd.Parameters.AddWithValue("@pr4", maleMiddleNames.GetValue(rnd.Next(10)));
-                        cmd.Parameters.AddWithValue("@pr5", Sex.GetValue(0));
-                    }
-                    else
-                    {
-                        cmd.Parameters.AddWithValue("@pr2", maleLastNames.GetValue(rnd.Next(10)));
-                        cmd.Parameters.AddWithValue("@pr3", maleFirstNames.GetValue(rnd.Next(10)));
-                        cmd.Parameters.AddWithValue("@pr4", maleMiddleNames.GetValue(rnd.Next(10)));
-                        cmd.Parameters.AddWithValue("@pr5", Sex.GetValue(0));
-                    }
-                    cmd.Parameters.AddWithValue("@pr6", date);
-                    cmd.Parameters.AddWithValue("@pr7", dateReg);
+                        newDate = date.AddDays(rnd.Next(rangeDate));
+                        newDateReg = dateReg.AddDays(rnd.Next(rangeReg));
 
-                    dbWorker.ExecuteStreamQuery(conn, cmd, countUsers, i);
+
+                        SqlCommand cmd = new SqlCommand(customerSql);
+                        cmd.Parameters.AddWithValue("@pr1", i);
+
+                        if (i % 2 == 0)
+                        {
+                            cmd.Parameters.AddWithValue("@pr2", maleLastNames.GetValue(rnd.Next(10)));
+                            cmd.Parameters.AddWithValue("@pr3", maleFirstNames.GetValue(rnd.Next(10)));
+                            cmd.Parameters.AddWithValue("@pr4", maleMiddleNames.GetValue(rnd.Next(10)));
+                            cmd.Parameters.AddWithValue("@pr5", Sex.GetValue(0));
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@pr2", femaleLastNames.GetValue(rnd.Next(10)));
+                            cmd.Parameters.AddWithValue("@pr3", femaleFirstNames.GetValue(rnd.Next(10)));
+                            cmd.Parameters.AddWithValue("@pr4", femaleMiddleNames.GetValue(rnd.Next(10)));
+                            cmd.Parameters.AddWithValue("@pr5", Sex.GetValue(1));
+                        }
+                        cmd.Parameters.AddWithValue("@pr6", newDate);
+                        cmd.Parameters.AddWithValue("@pr7", newDateReg);
+
+                        dbWorker.ExecuteStreamQuery(conn, cmd, countUsers, i + 1);
+
+                    }
                 }
+                else { Exception ex = new Exception("Database connection is empty"); }
             }
             catch (System.Exception ex) { throw ex; }
         }
@@ -187,22 +196,38 @@ namespace PointExample.Logicum
         Price Decimal*/
         public void FillOrderTables(int countOrders, int countUsers)
         {
-            Random rnd;
-            DateTime orderDate;
+            Random rnd = new Random();
+            DateTime newOrderDate;
+            DateTime orderDate = new DateTime(2011, 1, 1);
+            var conn = App.DbConn;
+            int range;
 
             string countSql = "INSERT INTO dbo.Orders(ID,CustomerID,OrderDate,Price) VALUES(@pr1,@pr2,@pr3,@pr4)";
 
-            for (decimal i = 0; i < countOrders; i++)
+            try
             {
-                SqlCommand cmd = new SqlCommand(countSql);
-                rnd = new Random();
-                orderDate = new DateTime(rnd.Next(2011, 2020), rnd.Next(1, 12), rnd.Next(1, 30));
+                if (App.DbConn != null)
+                {
+                    for (decimal i = 0; i < countOrders; i++)
+                    {
+                        SqlCommand cmd = new SqlCommand(countSql);
+                        range = (DateTime.Today - orderDate).Days;
+                        newOrderDate = orderDate.AddDays(rnd.Next(range));
+                        
 
-                cmd.Parameters.AddWithValue("@pr1", i);
-                cmd.Parameters.AddWithValue("@pr2", Convert.ToDecimal(rnd.Next(countUsers)));
-                cmd.Parameters.AddWithValue("@pr3", orderDate);
-                cmd.Parameters.AddWithValue("@pr3", Convert.ToDecimal(rnd.Next(100000)));
+                        cmd.Parameters.AddWithValue("@pr1", i);
+                        cmd.Parameters.AddWithValue("@pr2", Convert.ToDecimal(rnd.Next(countUsers)));
+                        cmd.Parameters.AddWithValue("@pr3", newOrderDate);
+                        cmd.Parameters.AddWithValue("@pr4", Convert.ToDecimal(rnd.Next(100000)));
+
+                        dbWorker.ExecuteStreamQuery(conn, cmd, countOrders, i + 1);
+                    }
+                }
+                else { Exception ex = new Exception("Database connection is empty"); }
+
             }
-         }
+            catch (Exception ex)
+            { throw ex; }
+        }
     }
 }
