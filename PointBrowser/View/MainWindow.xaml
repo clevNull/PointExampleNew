@@ -19,8 +19,8 @@
                 <Label Content="Заказы" HorizontalAlignment="Left" Margin="10.2,9,0,0" VerticalAlignment="Top" Width="110" Grid.Column="1"/>
             </Grid>
         </GroupBox>
-        <Button x:Name="dbConnBtn" Content="Подключение к БД" HorizontalAlignment="Right" Margin="0,0,9.6,10" VerticalAlignment="Bottom" Width="144"/>
-        <StatusBar x:Name="SttsBar" HorizontalAlignment="Left" Height="19" Margin="22,391,0,0" VerticalAlignment="Top" Width="613"/>
+        <Button x:Name="dbConnBtn" Content="Подключение к БД" HorizontalAlignment="Right" Margin="0,0,9.6,10" VerticalAlignment="Bottom" Width="144" Click="dbConnBtn_Click"/>
+        <StatusBar x:Name="SttsBar" HorizontalAlignment="Right" Margin="0,0,158.6,10" Width="613" Height="19" VerticalAlignment="Bottom"/>
 
     </Grid>
 </Window>

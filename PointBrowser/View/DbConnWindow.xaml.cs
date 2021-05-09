@@ -34,15 +34,27 @@ namespace PointBrowser.View
         private void SrvConnBtn_Click(object sender, RoutedEventArgs e)
         {
             if (addrBox.Text != "" &&
+            nameDbBox.Text != "" &&
             userNameBox.Text != "" &&
             passwordBox.Password != "")
             {
-                try { DbConn.SrvConnect(addrBox.Text, portBox.Text, userNameBox.Text, passwordBox.Password); }
+                try {
+                    PbChange(10);
+                    DbConn.SrvConnect(addrBox.Text, portBox.Text, userNameBox.Text, passwordBox.Password);
+                    DbConn.DbConnect(addrBox.Text, portBox.Text, nameDbBox.Text, userNameBox.Text, passwordBox.Password);
+                    PbChange(100);
+                    
+                    
+                }
                 catch (Exception ex)
                 { MessageBox.Show(ex.Message); }
 
             }
             else { MessageBox.Show("Поля, необходимые для подключения заполнены не верно/ не заполнены."); }
-        } 
+        }
+
+        private void PbChange(int val)
+        { DbConnPb.Value = val;
+        DbConnPb.}
     }
 }

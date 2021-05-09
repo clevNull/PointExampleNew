@@ -18,11 +18,19 @@ namespace PointBrowser.View
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
+    /// 
     public partial class MainWindow : Window
     {
+        DbConnWindow dbConnWindow;
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void dbConnBtn_Click(object sender, RoutedEventArgs e)
+        {
+            dbConnWindow = new DbConnWindow();
+            dbConnWindow.Show();
         }
     }
 }

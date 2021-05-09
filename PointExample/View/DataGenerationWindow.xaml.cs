@@ -28,11 +28,11 @@ namespace PointExample.View
         public DataGenerationWindow()
         {
             InitializeComponent();
-            dbConnWindow = new DbConnWindow();
         }
 
         private void DbConnBtn_Click(object sender, RoutedEventArgs e)
         {
+            dbConnWindow = new DbConnWindow();
             dbConnWindow.Show();
         }
 
