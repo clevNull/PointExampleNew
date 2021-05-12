@@ -152,7 +152,7 @@ namespace PointExample.Model
         }
         public void DeleteDb (string dbName)
         {
-            string cmdText = "DROP DATABASE " + dbName;
+            string cmdText = "DROP DATABASE IF EXISTS " + dbName;
             SqlCommand sqlCmd = new SqlCommand(cmdText, App.SrvConn);
 
             try

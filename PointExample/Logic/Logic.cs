@@ -85,9 +85,10 @@ namespace PointExample.Logicum
             {
                 if (App.SrvConn != null)
                 {
-                    if (dbWorker.checkDbExist(dbName))
-                        dbWorker.DeleteDb(dbName);
-
+                    // if (dbworker.checkdbexist(dbname))
+                    // проверяем наличие БД и удаляем при наличии
+                    dbWorker.DeleteDb(dbName);
+                    // создаем БД
                     dbWorker.CreateDB(dbName);
                 }
                 else { Exception ex = new Exception("ServerConnection is NULL"); throw ex; }
@@ -101,9 +102,10 @@ namespace PointExample.Logicum
             {
                 if (App.SrvConn != null)
                 {
-                    if (dbWorker.checkDbExist(dbName))
-                        dbWorker.DeleteDb(dbName);
-                    else { Exception ex = new Exception("Database is not existing."); throw ex; }
+                    // if (dbWorker.checkDbExist(dbName))
+                    // проверяем наличие БД и удаляем при наличии
+                    dbWorker.DeleteDb(dbName);
+                    // else { Exception ex = new Exception("Database is not existing."); throw ex; }
                 }
                 else { Exception ex = new Exception("ServerConnection is NULL"); throw ex; }
             }
