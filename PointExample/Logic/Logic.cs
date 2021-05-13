@@ -1,7 +1,7 @@
 ﻿using PointExample.Model;
 using System;
 using System.Data.SqlClient;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace PointExample.Logicum
 {
@@ -44,14 +44,14 @@ namespace PointExample.Logicum
 
         private string[] Sex;
 
-        public delegate void ProgressHandler(string message);
-        public event ProgressHandler Notify;
+        //public delegate void ProgressHandler(string message);
+        //public event ProgressHandler Notify;
 
         // public DbParams contact;
 
         private DBWorker dbWorker = new DBWorker();
 
-        public Logic()
+        public Logic( int countUsers, int countOrders, IProgress < string > progressStatus )
         {
             maleFirstNames = new string[] { "Александр", "Алексей", "Борис",
                 "Виктор", "Георгий", "Григорий", "Константин",
@@ -74,6 +74,10 @@ namespace PointExample.Logicum
                 "Ивановна", "Евгеньевна", "Сергеевна" };
 
             Sex = new string[] { "Мужской", "Женский" };
+
+            var mCountUsers = countUsers;
+            var mCountOrders = countOrders;
+            var mProgressStatus = progressStatus;
         }
 
         public void DbCreation(string dbName)
@@ -130,6 +134,11 @@ namespace PointExample.Logicum
 
 
 
+        public async Task FillCustomerTablesAsync()
+        {
+            await Task.Run(() => { FillCustomerTables; } );
+        }
+
         /*ID Decimal
         LastName Nvarchar(64)
         FirstName Nvarchar(64)
@@ -137,7 +146,7 @@ namespace PointExample.Logicum
         Sex Nvarchar(32)
         BirthDate DateTime
         RegistrationDate DateTime*/
-        public void FillCustomerTables(int countUsers)
+        public void FillCustomerTables()
         {
             string customerSql = "INSERT INTO dbo.Customers(ID,LastName,FirstName,MiddleName,Sex,BirthDate,RegistrationDate) VALUES(@pr1,@pr2,@pr3,@pr4,@pr5,@pr6,@pr7)";
 
@@ -152,7 +161,7 @@ namespace PointExample.Logicum
             {
                 if (App.DbConn != null)
                 {
-                    for ( decimal numUser, i = 0; i < countUsers; ++ i )
+                    for ( decimal numUser, i = 0; i < mCountUsers; ++ i )
                     {
                         newDate = date.AddDays(rnd.Next(rangeDate));
                         newDateReg = dateReg.AddDays(rnd.Next(rangeReg));
@@ -164,7 +173,7 @@ namespace PointExample.Logicum
 
                         Random sexNum = new Random();
 
-                        if ( sexNum.Next(0, 1) > 0 )
+                        if ( sexNum.Next(0, 1) == 1 )
                         {
                             cmd.Parameters.AddWithValue("@pr2", maleLastNames.GetValue(rnd.Next(10)));
                             cmd.Parameters.AddWithValue("@pr3", maleFirstNames.GetValue(rnd.Next(10)));
@@ -181,9 +190,9 @@ namespace PointExample.Logicum
                         cmd.Parameters.AddWithValue("@pr6", newDate);
                         cmd.Parameters.AddWithValue("@pr7", newDateReg);
 
-                        dbWorker.ExecuteStreamQuery( conn, cmd, countUsers, numUser );
+                        dbWorker.ExecuteStreamQuery( conn, cmd, mCountUsers, numUser );
 
-                        Notify( "Процесс создания заказчиков => " + numUser.ToString() + "/" + countUsers.ToString() );
+                        param.Report( "Процесс создания заказчиков => " + numUser.ToString() + "/" + mCountUsers.ToString() );
 
                         //Thread.Sleep(500);
                     }
@@ -198,7 +207,7 @@ namespace PointExample.Logicum
         CustomerID Decimal
         OrderDate DateTime
         Price Decimal*/
-        public void FillOrderTables(int countOrders, int countUsers)
+        public void FillOrderTables()
         {
             Random rnd = new Random();
             DateTime newOrderDate;
@@ -212,7 +221,7 @@ namespace PointExample.Logicum
             {
                 if (App.DbConn != null)
                 {
-                    for ( decimal numOrder, i = 0; i < countOrders; ++ i )
+                    for ( decimal numOrder, i = 0; i < mCountOrders; ++ i )
                     {
                         SqlCommand cmd = new SqlCommand(countSql);
                         range = (DateTime.Today - orderDate).Days;
@@ -221,13 +230,13 @@ namespace PointExample.Logicum
                         numOrder = i + 1;
 
                         cmd.Parameters.AddWithValue("@pr1", i);
-                        cmd.Parameters.AddWithValue("@pr2", Convert.ToDecimal(rnd.Next(countUsers)));
+                        cmd.Parameters.AddWithValue("@pr2", Convert.ToDecimal(rnd.Next(mCountUsers)));
                         cmd.Parameters.AddWithValue("@pr3", newOrderDate);
                         cmd.Parameters.AddWithValue("@pr4", Convert.ToDecimal(rnd.Next(100000)));
 
-                        dbWorker.ExecuteStreamQuery(conn, cmd, countOrders, numOrder);
+                        dbWorker.ExecuteStreamQuery(conn, cmd, mCountOrders, numOrder);
 
-                        Notify( "Процесс создания заказов => " + numOrder.ToString() + "/" + countOrders.ToString() );
+                        mProgressStatus.Report( "Процесс создания заказов => " + numOrder.ToString() + "/" + mCountOrders.ToString() );
 
                         //Thread.Sleep(100);
                     }

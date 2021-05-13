@@ -54,7 +54,8 @@ namespace PointBrowser.View
         }
 
         private void PbChange(int val)
-        { DbConnPb.Value = val;
-        DbConnPb.}
+        { 
+            DbConnPb.Value = val;
+        }
     }
 }

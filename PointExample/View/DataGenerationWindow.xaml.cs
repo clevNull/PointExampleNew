@@ -22,21 +22,22 @@ namespace PointExample.View
     /// </summary>
     public partial class DataGenerationWindow : Window
     {
-        DbConnWindow dbConnWindow;
-        ConncetionLogic DbConn = new ConncetionLogic();
-        Logic logicClass = new Logic();
+        
 
-
+        IProgress<string> progressStatus;
         public DataGenerationWindow()
         {
             InitializeComponent();
 
-            logicClass.Notify += this.ProcessStatusOut;
+            progressStatus = new Progress<string>(msg => { ProcessStatusOut(msg); });
+
+            ConncetionLogic DbConn = new ConncetionLogic();
+            Logic logicClass = new Logic(Convert.ToInt32(CustomerBlock.Text), Convert.ToInt32(OrderBlock.Text), progressStatus);
         }
 
         private void DbConnBtn_Click(object sender, RoutedEventArgs e)
         {
-            dbConnWindow = new DbConnWindow();
+            DbConnWindow dbConnWindow = new DbConnWindow();
             dbConnWindow.Show();
         }
 
@@ -52,29 +53,26 @@ namespace PointExample.View
 
         private void DataGenBtn_Click(object sender, RoutedEventArgs e)
         {
-            //Thread genThread = new Thread(() => generate());
-            //genThread.IsBackground = true;
-            //genThread.Start();
-            generate();
+            method();
+            //generate();
+        }
+
+        public async void method()
+        {
+            await Task.Run( () => generate() );
         }
 
         public void generate()
         {
             try
             {
-                logicClass.FillCustomerTables(Convert.ToInt32(CustomerBlock.Text));
-                logicClass.FillOrderTables(Convert.ToInt32(OrderBlock.Text), Convert.ToInt32(CustomerBlock.Text));
+                //await Task.Run( () => logicClass.FillCustomerTables(Convert.ToInt32(CustomerBlock.Text),progressStatus));
+                //await Task.Run( () => logicClass.FillOrderTables(Convert.ToInt32(OrderBlock.Text), Convert.ToInt32(CustomerBlock.Text),progressStatus));
             }
             catch (Exception ex)
             { MessageBox.Show(ex.Message); }
         }
         public void ProcessStatusOut( string message )
-        {
-            //this.Dispatcher.Invoke( new Action ( () => showLog( message ) ) );
-            showLog(message);
-        }
-
-        public void showLog( string message )
         {
             lbProcessStatus.Content = message;
         }
