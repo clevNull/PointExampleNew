@@ -1,6 +1,7 @@
 ﻿using PointExample.Model;
 using System;
 using System.Data.SqlClient;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PointExample.Logicum
@@ -51,6 +52,34 @@ namespace PointExample.Logicum
 
         private DBWorker dbWorker = new DBWorker();
 
+        int mCountUsers, mCountOrders;
+        IProgress < string > mProgressStatus;
+
+        public Logic()
+        {
+            maleFirstNames = new string[] { "Александр", "Алексей", "Борис",
+                "Виктор", "Георгий", "Григорий", "Константин",
+                "Иван", "Евгений", "Сергей" };
+            maleLastNames = new string[] { "Иванов", "Петров", "Сидоров",
+                "Александров", "Капилевич", "Батыгин", "Самсонов",
+                "Егоров", "Школьник", "Баранов"};
+            maleMiddleNames = new string[] { "Александрович", "Алексеевич", "Борисович",
+                "Викторович", "Георгиевич", "Григорьевич", "Константинович",
+                "Иванович", "Евгеньевич", "Сергеевич" };
+
+            femaleFirstNames = new string[] { "Александра", "Варвава", "Вероника",
+                "Галина", "Дарья", "Елена", "Жанна",
+                "Зоя", "Ирина", "Лия" };
+            femaleLastNames = new string[] { "Иванова", "Петрова", "Сидорова",
+                "Александрова", "Койхман", "Батыгина", "Самсонова",
+                "Егорова", "Пустова", "Баранова"};
+            femaleMiddleNames = new string[] { "Александровна", "Алексеевна", "Борисовна",
+                "Викторовна", "Георгиевна", "Григорьевна", "Константиновна",
+                "Ивановна", "Евгеньевна", "Сергеевна" };
+
+            Sex = new string[] { "Мужской", "Женский" };
+        }
+
         public Logic( int countUsers, int countOrders, IProgress < string > progressStatus )
         {
             maleFirstNames = new string[] { "Александр", "Алексей", "Борис",
@@ -75,9 +104,9 @@ namespace PointExample.Logicum
 
             Sex = new string[] { "Мужской", "Женский" };
 
-            var mCountUsers = countUsers;
-            var mCountOrders = countOrders;
-            var mProgressStatus = progressStatus;
+            mCountUsers = countUsers;
+            mCountOrders = countOrders;
+            mProgressStatus = progressStatus;
         }
 
         public void DbCreation(string dbName)
@@ -134,9 +163,10 @@ namespace PointExample.Logicum
 
 
 
-        public async Task FillCustomerTablesAsync()
+        public async Task FillTablesAsync()
         {
-            await Task.Run(() => { FillCustomerTables; } );
+            await Task.Run(() => { FillCustomerTables(); });
+            await Task.Run(() => { FillOrderTables(); });
         }
 
         /*ID Decimal
@@ -192,9 +222,9 @@ namespace PointExample.Logicum
 
                         dbWorker.ExecuteStreamQuery( conn, cmd, mCountUsers, numUser );
 
-                        param.Report( "Процесс создания заказчиков => " + numUser.ToString() + "/" + mCountUsers.ToString() );
+                        mProgressStatus.Report( "Процесс создания заказчиков => " + numUser.ToString() + "/" + mCountUsers.ToString() );
 
-                        //Thread.Sleep(500);
+                        Thread.Sleep(100);
                     }
                 }
                 else { Exception ex = new Exception("Database connection is empty"); }
@@ -238,7 +268,7 @@ namespace PointExample.Logicum
 
                         mProgressStatus.Report( "Процесс создания заказов => " + numOrder.ToString() + "/" + mCountOrders.ToString() );
 
-                        //Thread.Sleep(100);
+                        Thread.Sleep(10);
                     }
                 }
                 else { Exception ex = new Exception("Database connection is empty"); }

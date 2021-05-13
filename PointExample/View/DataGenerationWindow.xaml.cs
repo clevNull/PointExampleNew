@@ -22,17 +22,16 @@ namespace PointExample.View
     /// </summary>
     public partial class DataGenerationWindow : Window
     {
-        
-
-        IProgress<string> progressStatus;
+        ConncetionLogic dBConn;
+        Logic logicClass;
+        IProgress < string > progressStatus;
         public DataGenerationWindow()
         {
             InitializeComponent();
 
             progressStatus = new Progress<string>(msg => { ProcessStatusOut(msg); });
 
-            ConncetionLogic DbConn = new ConncetionLogic();
-            Logic logicClass = new Logic(Convert.ToInt32(CustomerBlock.Text), Convert.ToInt32(OrderBlock.Text), progressStatus);
+            
         }
 
         private void DbConnBtn_Click(object sender, RoutedEventArgs e)
@@ -53,21 +52,17 @@ namespace PointExample.View
 
         private void DataGenBtn_Click(object sender, RoutedEventArgs e)
         {
-            method();
-            //generate();
-        }
-
-        public async void method()
-        {
-            await Task.Run( () => generate() );
+            dBConn = new ConncetionLogic();
+            logicClass = new Logic(Convert.ToInt32(CustomerBlock.Text), Convert.ToInt32(OrderBlock.Text), progressStatus);
+            
+            generate();
         }
 
         public void generate()
         {
             try
             {
-                //await Task.Run( () => logicClass.FillCustomerTables(Convert.ToInt32(CustomerBlock.Text),progressStatus));
-                //await Task.Run( () => logicClass.FillOrderTables(Convert.ToInt32(OrderBlock.Text), Convert.ToInt32(CustomerBlock.Text),progressStatus));
+                logicClass.FillTablesAsync();
             }
             catch (Exception ex)
             { MessageBox.Show(ex.Message); }
