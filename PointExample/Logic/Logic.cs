@@ -222,7 +222,7 @@ namespace PointExample.Logicum
 
                         dbWorker.ExecuteStreamQuery( conn, cmd, mCountUsers, numUser );
 
-                        mProgressStatus.Report( "Процесс создания заказчиков => " + numUser.ToString() + "/" + mCountUsers.ToString() );
+                        mProgressStatus.Report( "Процесс создания заказчиков: " + numUser.ToString() + "/" + mCountUsers.ToString() );
 
                         Thread.Sleep(100);
                     }
@@ -266,7 +266,7 @@ namespace PointExample.Logicum
 
                         dbWorker.ExecuteStreamQuery(conn, cmd, mCountOrders, numOrder);
 
-                        mProgressStatus.Report( "Процесс создания заказов => " + numOrder.ToString() + "/" + mCountOrders.ToString() );
+                        mProgressStatus.Report( "Процесс создания заказов: " + numOrder.ToString() + "/" + mCountOrders.ToString() );
 
                         Thread.Sleep(10);
                     }
