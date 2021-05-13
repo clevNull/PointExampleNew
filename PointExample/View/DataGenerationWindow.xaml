@@ -7,17 +7,8 @@
         mc:Ignorable="d"
         Title="Формирование данных" Height="333" Width="503.814">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="165*"/>
-            <ColumnDefinition Width="331*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="272*"/>
-            <RowDefinition/>
-            <RowDefinition Height="25*"/>
-        </Grid.RowDefinitions>
         <GroupBox x:Name="groupBox" Header="Формирование" HorizontalAlignment="Left" Height="216" Margin="10,10,0,0" VerticalAlignment="Top" Width="476" Grid.ColumnSpan="2">
-            <Grid Margin="2,0,-2,-0.4">
+            <Grid>
                 <Button x:Name="DataGenBtn" Content="Сформировать" HorizontalAlignment="Right" Margin="0,164,10,10" Width="148" Click="DataGenBtn_Click"/>
                 <Label x:Name="label" Content="1000" HorizontalAlignment="Left" Margin="10,107,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="label1" Content="10000" HorizontalAlignment="Left" Margin="411,107,0,0" VerticalAlignment="Top"/>
@@ -29,13 +20,12 @@
                 <Label x:Name="label1_Copy" Content="20" HorizontalAlignment="Left" Margin="411,32,0,0" VerticalAlignment="Top" Width="30"/>
                 <Label x:Name="label_Copy1" Content="Заказы" HorizontalAlignment="Left" Margin="50,89,0,0" VerticalAlignment="Top" Width="61"/>
                 <Label x:Name="label_Copy2" Content="Покупатели" HorizontalAlignment="Left" Margin="50,14,0,0" VerticalAlignment="Top" Width="78"/>
-
             </Grid>
         </GroupBox>
         <Button x:Name="DbConnBtn" Content="Подключение к БД" Margin="0,258,10,10" HorizontalAlignment="Right" Width="121" Click="DbConnBtn_Click" Grid.RowSpan="3" Grid.Column="1"/>
-        <StatusBar HorizontalAlignment="Left" Margin="10,257,0,10" Width="312" Grid.RowSpan="3" Grid.ColumnSpan="2" >
-            <Label x:Name="lbProcessStatus" Content="Процесс создания ..." HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="302" Height="30"/>
-        </StatusBar>
-
+        <Grid Margin="10,258,0,10" HorizontalAlignment="Left" Width="316">
+            <ProgressBar x:Name="pbStatus" Foreground="#f7a35c"/>
+            <TextBlock x:Name="tbStatus" LineHeight="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="Статус: 0/10"/>
+        </Grid>
     </Grid>
 </Window>

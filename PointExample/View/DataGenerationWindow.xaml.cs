@@ -69,7 +69,7 @@ namespace PointExample.View
         }
         public void ProcessStatusOut( string message )
         {
-            lbProcessStatus.Content = message;
+            tbStatus.Text = message;
         }
     }
 }
