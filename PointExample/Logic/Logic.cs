@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿using PointExample.Model;
+using System;
 using System.Data.SqlClient;
-
-using PointExample;
-using PointExample.Model;
+using System.Threading;
 
 namespace PointExample.Logicum
 {
@@ -50,14 +44,17 @@ namespace PointExample.Logicum
 
         private string[] Sex;
 
+        public delegate void ProgressHandler(string message);
+        public event ProgressHandler Notify;
+
         // public DbParams contact;
 
         private DBWorker dbWorker = new DBWorker();
 
-        public Logic ()
+        public Logic()
         {
-            maleFirstNames = new string[] { "Александр", "Алексей", "Борис", 
-                "Виктор", "Георгий", "Григорий", "Константин", 
+            maleFirstNames = new string[] { "Александр", "Алексей", "Борис",
+                "Виктор", "Георгий", "Григорий", "Константин",
                 "Иван", "Евгений", "Сергей" };
             maleLastNames = new string[] { "Иванов", "Петров", "Сидоров",
                 "Александров", "Капилевич", "Батыгин", "Самсонов",
@@ -79,7 +76,7 @@ namespace PointExample.Logicum
             Sex = new string[] { "Мужской", "Женский" };
         }
 
-        public void DbCreation (string dbName)
+        public void DbCreation(string dbName)
         {
             try
             {
@@ -96,7 +93,7 @@ namespace PointExample.Logicum
             catch (System.Exception ex) { throw ex; }
         }
 
-        public void DbDeleting (string dbName)
+        public void DbDeleting(string dbName)
         {
             try
             {
@@ -112,7 +109,7 @@ namespace PointExample.Logicum
             catch (System.Exception ex) { throw ex; }
         }
 
-        public void TablesCreation ()
+        public void TablesCreation()
         {
             string customerStr = "CREATE TABLE dbo.Customers (" +
                 "ID DECIMAL CONSTRAINT CUST_PK PRIMARY KEY NONCLUSTERED," +
@@ -144,7 +141,6 @@ namespace PointExample.Logicum
         {
             string customerSql = "INSERT INTO dbo.Customers(ID,LastName,FirstName,MiddleName,Sex,BirthDate,RegistrationDate) VALUES(@pr1,@pr2,@pr3,@pr4,@pr5,@pr6,@pr7)";
 
-            decimal i;
             Random rnd = new Random();
             DateTime newDate, newDateReg = new DateTime();
             DateTime date = new DateTime(1946, 1, 1);
@@ -156,16 +152,19 @@ namespace PointExample.Logicum
             {
                 if (App.DbConn != null)
                 {
-                    for (i = 0; i < countUsers; i++)
+                    for ( decimal numUser, i = 0; i < countUsers; ++ i )
                     {
                         newDate = date.AddDays(rnd.Next(rangeDate));
                         newDateReg = dateReg.AddDays(rnd.Next(rangeReg));
 
+                        numUser = i + 1;
 
                         SqlCommand cmd = new SqlCommand(customerSql);
                         cmd.Parameters.AddWithValue("@pr1", i);
 
-                        if (i % 2 == 0)
+                        Random sexNum = new Random();
+
+                        if ( sexNum.Next(0, 1) > 0 )
                         {
                             cmd.Parameters.AddWithValue("@pr2", maleLastNames.GetValue(rnd.Next(10)));
                             cmd.Parameters.AddWithValue("@pr3", maleFirstNames.GetValue(rnd.Next(10)));
@@ -182,8 +181,11 @@ namespace PointExample.Logicum
                         cmd.Parameters.AddWithValue("@pr6", newDate);
                         cmd.Parameters.AddWithValue("@pr7", newDateReg);
 
-                        dbWorker.ExecuteStreamQuery(conn, cmd, countUsers, i + 1);
+                        dbWorker.ExecuteStreamQuery( conn, cmd, countUsers, numUser );
 
+                        Notify( "Процесс создания заказчиков => " + numUser.ToString() + "/" + countUsers.ToString() );
+
+                        //Thread.Sleep(500);
                     }
                 }
                 else { Exception ex = new Exception("Database connection is empty"); }
@@ -210,23 +212,27 @@ namespace PointExample.Logicum
             {
                 if (App.DbConn != null)
                 {
-                    for (decimal i = 0; i < countOrders; i++)
+                    for ( decimal numOrder, i = 0; i < countOrders; ++ i )
                     {
                         SqlCommand cmd = new SqlCommand(countSql);
                         range = (DateTime.Today - orderDate).Days;
                         newOrderDate = orderDate.AddDays(rnd.Next(range));
-                        
+
+                        numOrder = i + 1;
 
                         cmd.Parameters.AddWithValue("@pr1", i);
                         cmd.Parameters.AddWithValue("@pr2", Convert.ToDecimal(rnd.Next(countUsers)));
                         cmd.Parameters.AddWithValue("@pr3", newOrderDate);
                         cmd.Parameters.AddWithValue("@pr4", Convert.ToDecimal(rnd.Next(100000)));
 
-                        dbWorker.ExecuteStreamQuery(conn, cmd, countOrders, i + 1);
+                        dbWorker.ExecuteStreamQuery(conn, cmd, countOrders, numOrder);
+
+                        Notify( "Процесс создания заказов => " + numOrder.ToString() + "/" + countOrders.ToString() );
+
+                        //Thread.Sleep(100);
                     }
                 }
                 else { Exception ex = new Exception("Database connection is empty"); }
-
             }
             catch (Exception ex)
             { throw ex; }

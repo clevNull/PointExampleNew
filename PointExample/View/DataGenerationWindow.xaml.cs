@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 using PointExample.Logicum;
+using System.Threading;
 
 namespace PointExample.View
 {
@@ -21,13 +22,16 @@ namespace PointExample.View
     /// </summary>
     public partial class DataGenerationWindow : Window
     {
+        DbConnWindow dbConnWindow;
         ConncetionLogic DbConn = new ConncetionLogic();
         Logic logicClass = new Logic();
 
-        DbConnWindow dbConnWindow;
+
         public DataGenerationWindow()
         {
             InitializeComponent();
+
+            logicClass.Notify += this.ProcessStatusOut;
         }
 
         private void DbConnBtn_Click(object sender, RoutedEventArgs e)
@@ -48,6 +52,14 @@ namespace PointExample.View
 
         private void DataGenBtn_Click(object sender, RoutedEventArgs e)
         {
+            //Thread genThread = new Thread(() => generate());
+            //genThread.IsBackground = true;
+            //genThread.Start();
+            generate();
+        }
+
+        public void generate()
+        {
             try
             {
                 logicClass.FillCustomerTables(Convert.ToInt32(CustomerBlock.Text));
@@ -55,6 +67,16 @@ namespace PointExample.View
             }
             catch (Exception ex)
             { MessageBox.Show(ex.Message); }
+        }
+        public void ProcessStatusOut( string message )
+        {
+            //this.Dispatcher.Invoke( new Action ( () => showLog( message ) ) );
+            showLog(message);
+        }
+
+        public void showLog( string message )
+        {
+            lbProcessStatus.Content = message;
         }
     }
 }
