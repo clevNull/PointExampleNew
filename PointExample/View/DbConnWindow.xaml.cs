@@ -63,7 +63,9 @@ namespace PointExample.View
                 { MessageBox.Show(ex.Message); }
             }
             /// выдаем сообщение об некорректности заполнения полей виджета
-            else { MessageBox.Show("Поля, необходимые для подключения заполнены не верно/ не заполнены."); }
+            else { MessageBox.Show(
+                "Поля, необходимые для подключения заполнены не верно/ не заполнены.",
+                "Подключение к БД", MessageBoxButton.OK, MessageBoxImage.Error ); }
         }
 
         /// <summary>
