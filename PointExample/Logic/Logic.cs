@@ -299,7 +299,7 @@ namespace PointExample.Logicum
                         /// задаем пареметр запроса в БД -> идентификатор заказчика
                         cmd.Parameters.AddWithValue("@arg1", i);
                         /// выбираем пол заказчика ( случайно )
-                        if ( rnd.Next(0, 1) == 1 )
+                        if ( rnd.Next(0, 100) < 39 )
                         {
                             /// задаем пареметр запроса в БД -> фамилия заказчика ( мужские )
                             cmd.Parameters.AddWithValue("@arg2", mMaleLastNames_.GetValue(rnd.Next(10)));
