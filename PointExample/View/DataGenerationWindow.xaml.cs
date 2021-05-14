@@ -117,8 +117,11 @@ namespace PointExample.View
         /// <param name="numCustomer">номер заказчика</param>
         private void setCustomersStatus( int numCustomer )
         {
+            /// инициализируем колличесво заказчиков
             int countCustomers = Convert.ToInt32( CustomerBlock.Text );
+            /// проверка на корректность максимального значения progress bar
             if ( pbStatus.Maximum != countCustomers ) pbStatus.Maximum = countCustomers;
+            /// задаем текущее значение progress bar
             pbStatus.Value = numCustomer;
 
             /// задание значения статуса создания заказчиков
@@ -131,8 +134,11 @@ namespace PointExample.View
         /// <param name="numOrder">номер заказа</param>
         private void setOrdersStatus( int numOrder )
         {
+            /// инициализируем колличесво заказов
             int countOrders = Convert.ToInt32( OrderBlock.Text );
+            /// проверка на корректность максимального значения progress bar
             if ( pbStatus.Maximum != countOrders ) pbStatus.Maximum = countOrders;
+            /// задаем текущее значение progress bar
             pbStatus.Value = numOrder;
             
             /// задание значения статуса создания заказов

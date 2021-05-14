@@ -55,17 +55,24 @@ namespace PointExample.View
             userNameBox.Text != "" &&
             passwordBox.Password != "")
             {
-                /// подключаемся к серверу
-                try { DbConn.SrvConnect(addrBox.Text, portBox.Text, userNameBox.Text, passwordBox.Password); }
+                try {
+                    /// подключаемся к серверу
+                    DbConn.SrvConnect(addrBox.Text, portBox.Text, userNameBox.Text, passwordBox.Password);
+                    /// выдаем сообщение об успешном подключении
+                    MessageBox.Show(
+                        "Подключение установлено!",
+                        "Подключение", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
                 /// отлавливаем исключение
                 catch (Exception ex)
                 /// выдаем сообщение
-                { MessageBox.Show(ex.Message); }
+                { MessageBox.Show(ex.Message, "Подключение", MessageBoxButton.OK, MessageBoxImage.Error); }
             }
             /// выдаем сообщение об некорректности заполнения полей виджета
             else { MessageBox.Show(
-                "Поля, необходимые для подключения заполнены не верно/ не заполнены.",
-                "Подключение к БД", MessageBoxButton.OK, MessageBoxImage.Error ); }
+                "Поля, необходимые для подключения, заполнены не корректно.",
+                "Подключение", MessageBoxButton.OK, MessageBoxImage.Error );
+            }
         }
 
         /// <summary>
@@ -86,14 +93,21 @@ namespace PointExample.View
                     DbConn.DbConnect(addrBox.Text, portBox.Text, nameDbBox.Text, userNameBox.Text, passwordBox.Password);
                     /// создаем таблицы в БД
                     logicClass.TablesCreation();
+                    /// выдаем сообщение об успешном создание БД
+                    MessageBox.Show(
+                        "Создание БД " + nameDbBox.Text + " завершено успешно!",
+                        "Создание БД", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 /// отлавливаем исключение
                 catch (Exception ex)
                 /// выдаем сообщение
-                { MessageBox.Show(ex.Message); }
+                { MessageBox.Show(ex.Message, "Создание БД", MessageBoxButton.OK, MessageBoxImage.Error); }
             }
             /// выдаем сообщение об некорректности заполнения полей виджета
-            else { MessageBox.Show("наименование БД, заполнено не верно/ не заполнено."); }
+            else { MessageBox.Show(
+                "Наименование БД заполнено не корректно.",
+                "Создание БД", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>
@@ -107,11 +121,16 @@ namespace PointExample.View
             if (nameDbBox.Text != "")
             {
                 /// удаляем БД
-                try { logicClass.DbDeleting(nameDbBox.Text); }
+                try { logicClass.DbDeleting(nameDbBox.Text);
+                    /// выдаем сообщение об успешном удалении БД
+                    MessageBox.Show(
+                        "Удаление БД " + nameDbBox.Text + " завершено успешно!",
+                        "Удаление БД", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
                 /// отлавливаем исключение
                 catch (Exception ex)
                 /// выдаем исключение
-                { MessageBox.Show(ex.Message); }
+                { MessageBox.Show(ex.Message, "Удаление БД", MessageBoxButton.OK, MessageBoxImage.Error); }
             }
         }
     }
