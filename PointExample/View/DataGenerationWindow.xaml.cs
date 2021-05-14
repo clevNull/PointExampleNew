@@ -34,9 +34,13 @@ namespace PointExample.View
         /// </summary>
         Logic mLogicClass_;
         /// <summary>
-        /// объявляем объект статуса создания заказчиков/заказов
+        /// объявляем объект статуса создания заказчиков
         /// </summary>
-        IProgress < string > mProgressStatus_;
+        IProgress < int > mNumCustomer_;
+        /// <summary>
+        /// объявляем объект статуса создания заказов
+        /// </summary>
+        IProgress < int > mNumOrder_;
 
         /// <summary>
         /// конструктор по умолчанию
@@ -46,8 +50,10 @@ namespace PointExample.View
             /// инициализируем основные компоненты виджета
             InitializeComponent();
 
-            /// задаем объект статуса создания заказчиков/заказов
-            mProgressStatus_ = new Progress<string>(msg => { ProcessStatusOut(msg); });
+            /// задаем объект статуса создания заказчиков
+            mNumCustomer_ = new Progress < int > ( numCustomer => { setCustomersStatus( numCustomer ); } );
+            /// задаем объект статуса создания заказов
+            mNumOrder_ = new Progress < int > ( numOrder => { setOrdersStatus( numOrder ); } );
         }
 
         /// <summary>
@@ -81,7 +87,7 @@ namespace PointExample.View
         /// <param name="e">событие</param>
         private void CustomerSldr_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            /// задаем значение текстового поля для отображения числа Покупателей
+            /// задаем значение текстового поля для отображения числа заказчиков
             CustomerBlock.Text = Convert.ToInt32(CustomerSldr.Value).ToString();
         }
 
@@ -95,9 +101,9 @@ namespace PointExample.View
             /// задаем объект логики подключения к БД/серверу
             mDBConn_ = new ConncetionLogic();
             /// задаем объект логики работы с таблицами в БД
-            mLogicClass_ = new Logic(Convert.ToInt32(CustomerBlock.Text), Convert.ToInt32(OrderBlock.Text), mProgressStatus_);
-            
-            /// заполняем таблицы покупателей/заказов
+            mLogicClass_ = new Logic( Convert.ToInt32( CustomerBlock.Text ), Convert.ToInt32( OrderBlock.Text ), mNumCustomer_, mNumOrder_ );
+
+            /// заполняем таблицы заказчиков/заказов
             try { mLogicClass_.FillTablesAsync(); }
             /// отлавливаем исключение
             catch (Exception ex)
@@ -106,13 +112,31 @@ namespace PointExample.View
         }
 
         /// <summary>
-        /// метод задания значения статуса создания покупателей/заказов
+        /// метод задания значения статуса создания заказчиков
         /// </summary>
-        /// <param name="message"></param>
-        private void ProcessStatusOut( string message )
+        /// <param name="numCustomer">номер заказчика</param>
+        private void setCustomersStatus( int numCustomer )
         {
-            /// задание значения статуса создания покупателей/заказов
-            tbStatus.Text = message;
+            int countCustomers = Convert.ToInt32( CustomerBlock.Text );
+            if ( pbStatus.Maximum != countCustomers ) pbStatus.Maximum = countCustomers;
+            pbStatus.Value = numCustomer;
+
+            /// задание значения статуса создания заказчиков
+            tbStatus.Text = "Прогресс создания покупателей: " + numCustomer + "/" + countCustomers;
+        }
+
+        /// <summary>
+        /// метод задания значения статуса создания заказов
+        /// </summary>
+        /// <param name="numOrder">номер заказа</param>
+        private void setOrdersStatus( int numOrder )
+        {
+            int countOrders = Convert.ToInt32( OrderBlock.Text );
+            if ( pbStatus.Maximum != countOrders ) pbStatus.Maximum = countOrders;
+            pbStatus.Value = numOrder;
+            
+            /// задание значения статуса создания заказов
+            tbStatus.Text = "Прогресс создания заказов: " + numOrder + "/" + countOrders;
         }
     }
 }

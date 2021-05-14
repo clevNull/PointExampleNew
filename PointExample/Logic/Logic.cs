@@ -99,12 +99,17 @@ namespace PointExample.Logicum
         /// <summary>
         /// колличесво заказчиков/заказов
         /// </summary>
-        int mCountUsers, mCountOrders;
+        int mCountUsers_, mCountOrders_;
 
         /// <summary>
-        /// объект статуса создания заказчиков/заказов
+        /// объект статуса создания заказчиков
         /// </summary>
-        IProgress< string > mProgressStatus;
+        IProgress < int > mNumCustomer_;
+
+        /// <summary>
+        /// объект статуса создания заказов
+        /// </summary>
+        IProgress < int > mNumOrder_;
 
         /// <summary>
         /// объект работы с БД
@@ -121,8 +126,9 @@ namespace PointExample.Logicum
         /// </summary>
         /// <param name="countUsers">колличесво заказчиков</param>
         /// <param name="countOrders">колличесво заказов</param>
-        /// <param name="progressStatus">объект статуса создания заказчиков/заказов</param>
-        public Logic( int countUsers, int countOrders, IProgress < string > progressStatus )
+        /// <param name="numCustomer">объект статуса создания заказчиков</param>
+        /// <param name="numOrder">объект статуса создания заказов</param>
+        public Logic( int countUsers, int countOrders, IProgress < int > numCustomer, IProgress < int > numOrder )
         {
             /// задаем массив имен заказчиков ( мужские )
             mMaleFirstNames_ = new string[] { "Александр", "Алексей", "Борис",
@@ -154,11 +160,13 @@ namespace PointExample.Logicum
             mSex_ = new string[] { "Мужской", "Женский" };
 
             /// задаем колличесво заказчиков
-            mCountUsers = countUsers;
+            mCountUsers_ = countUsers;
             /// задаем колличесво заказов
-            mCountOrders = countOrders;
-            /// задаем объект статуса создания заказчиков/заказов
-            mProgressStatus = progressStatus;
+            mCountOrders_ = countOrders;
+            /// задаем объект статуса создания заказов
+            mNumCustomer_ = numCustomer;
+            /// задаем объект статуса создания заказов
+            mNumOrder_ = numOrder;
         }
 
         /// <summary>
@@ -177,7 +185,7 @@ namespace PointExample.Logicum
                     /// создаем БД
                     mDBWorker.CreateDB(dbName);
                 }
-                /// выдаем сообщение об отстутвии поключения к серверу
+                /// выдаем сообщение об отстутвии подключения к серверу
                 else { Exception ex = new Exception("ServerConnection is NULL"); throw ex; }
             }
             /// отлавливаем исключение
@@ -200,7 +208,7 @@ namespace PointExample.Logicum
                     /// проверяем наличие БД и удаляем при наличии
                     mDBWorker.DeleteDb(dbName);
                 }
-                /// выдаем сообщение об отстутвии поключения к серверу
+                /// выдаем сообщение об отстутвии подключения к серверу
                 else { Exception ex = new Exception("ServerConnection is NULL"); throw ex; }
             }
             /// отлавливаем исключение
@@ -287,7 +295,7 @@ namespace PointExample.Logicum
                 if (App.DbConn != null)
                 {
                     /// цикл потока запросов заполнения таблицы заказчиков
-                    for ( decimal numUser, i = 0; i < mCountUsers; ++ i )
+                    for ( decimal numUser, i = 0; i < mCountUsers_; ++ i )
                     {
                         /// задаем дату рождения заказчика
                         newDate = date.AddDays(rnd.Next(rangeDate));
@@ -329,9 +337,9 @@ namespace PointExample.Logicum
                         /// задаем номер заказчика
                         numUser = i + 1;
                         /// выполняем запрос в БД по заполнению таблицы заказчиков ( потоково )
-                        mDBWorker.ExecuteStreamQuery( conn, cmd, numUser, mCountUsers );
+                        mDBWorker.ExecuteStreamQuery( conn, cmd, numUser, mCountUsers_ );
                         /// передаем прогресс создания заказчиков в форму отображения создания заказчиков
-                        mProgressStatus.Report( "Процесс создания заказчиков: " + numUser.ToString() + "/" + mCountUsers.ToString() );
+                        mNumCustomer_.Report( Convert.ToInt32( numUser ) );
 
                         /// пауза в процессе, для корректоного отображения прогресса в форме отображения создания заказчиков
                         Thread.Sleep(100);
@@ -378,7 +386,7 @@ namespace PointExample.Logicum
                 if (App.DbConn != null)
                 {
                     /// цикл потока запросов заполнения таблицы заказов
-                    for ( decimal numOrder, i = 0; i < mCountOrders; ++ i )
+                    for ( decimal numOrder, i = 0; i < mCountOrders_; ++ i )
                     {
                         /// инициализируем запрос в БД
                         SqlCommand cmd = new SqlCommand(countSql, conn);
@@ -388,7 +396,7 @@ namespace PointExample.Logicum
                         /// задаем пареметр запроса в БД -> идентификатор заказа
                         cmd.Parameters.AddWithValue("@arg1", i);
                         /// задаем пареметр запроса в БД -> идентификатор заказчика
-                        cmd.Parameters.AddWithValue("@arg2", Convert.ToDecimal(rnd.Next(mCountUsers)));
+                        cmd.Parameters.AddWithValue("@arg2", Convert.ToDecimal(rnd.Next(mCountUsers_)));
                         /// задаем пареметр запроса в БД -> дата регистрации заказа
                         cmd.Parameters.AddWithValue("@arg3", newOrderDate);
                         /// задаем пареметр запроса в БД -> наименование заказа
@@ -399,9 +407,9 @@ namespace PointExample.Logicum
                         /// задаем номер заказа
                         numOrder = i + 1;
                         /// выполняем запрос в БД по заполнению таблицы заказов ( потоково )
-                        mDBWorker.ExecuteStreamQuery(conn, cmd, numOrder, mCountOrders);
+                        mDBWorker.ExecuteStreamQuery(conn, cmd, numOrder, mCountOrders_);
                         /// передаем прогресс создания заказчиков в форму отображения создания заказов
-                        mProgressStatus.Report( "Процесс создания заказов: " + numOrder.ToString() + "/" + mCountOrders.ToString() );
+                        mNumOrder_.Report( Convert.ToInt32( numOrder ) );
 
                         /// пауза в процессе, для корректоного отображения прогресса в форме отображения создания заказов
                         Thread.Sleep(10);
