@@ -13,15 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PointBrowser.View
+namespace PointExample.View
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     /// 
     public partial class MainWindow : Window
-    {
-        DbConnWindow dbConnWindow;
+    {        
         public MainWindow()
         {
             InitializeComponent();
@@ -29,8 +28,21 @@ namespace PointBrowser.View
 
         private void dbConnBtn_Click(object sender, RoutedEventArgs e)
         {
-            dbConnWindow = new DbConnWindow();
+            /// инициализируем класс логики подключения к БД/серверу
+            DbConnWindow dbConnWindow = new DbConnWindow();
+            /// отображаем виджет подключения к БД/серверу
             dbConnWindow.Show();
+        }
+
+        private void pbUpdateData_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void pbDataGen_Click(object sender, RoutedEventArgs e)
+        {
+            DataGenerationWindow dgWindow = new DataGenerationWindow();
+            dgWindow.Show();
         }
     }
 }

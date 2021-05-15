@@ -22,8 +22,7 @@
                 <Label x:Name="label_Copy2" Content="Покупатели" HorizontalAlignment="Left" Margin="50,14,0,0" VerticalAlignment="Top" Width="78"/>
             </Grid>
         </GroupBox>
-        <Button x:Name="DbConnBtn" Content="Подключение к БД" Margin="0,258,10,10" HorizontalAlignment="Right" Width="121" Click="DbConnBtn_Click" Grid.RowSpan="3" Grid.Column="1"/>
-        <Grid Margin="10,258,0,10" HorizontalAlignment="Left" Width="316">
+        <Grid Margin="10,258,10,10">
             <ProgressBar x:Name="pbStatus" Foreground="#f7a35c"/>
             <TextBlock x:Name="tbStatus" LineHeight="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="Прогресс создания: 0/10"/>
         </Grid>

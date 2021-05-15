@@ -19,7 +19,7 @@
                 <TextBox x:Name="userNameBox" Height="23" Margin="10,101,212.333,0" TextWrapping="Wrap" Text="sa" VerticalAlignment="Top"/>
                 <Label x:Name="label3" Content="Пароль" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Width="100"/>
                 <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Margin="10,157,0,0" VerticalAlignment="Top" Width="118" Height="23"/>
-                <TextBox x:Name="portBox" Height="23" Margin="218,46,10.333,0" TextWrapping="Wrap" Text="49172" VerticalAlignment="Top"/>
+                <TextBox x:Name="portBox" Height="23" Margin="218,46,10.333,0" TextWrapping="Wrap" Text="1433" VerticalAlignment="Top"/>
                 <Label x:Name="label1_Copy" Content="Порт" HorizontalAlignment="Left" Margin="218,14,0,0" VerticalAlignment="Top" Width="100"/>
             </Grid>
         </GroupBox>
