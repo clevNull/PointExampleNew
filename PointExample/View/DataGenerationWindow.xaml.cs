@@ -28,7 +28,7 @@ namespace PointExample.View
         /// <summary>
         /// объявляем объект логики подключения к БД/серверу
         /// </summary>
-        ConncetionLogic mDBConn_;
+        ConnectionLogic mDBConn_;
         /// <summary>
         /// объявляем объект логики работы с таблицами в БД
         /// </summary>
@@ -54,19 +54,6 @@ namespace PointExample.View
             mNumCustomer_ = new Progress < int > ( numCustomer => { setCustomersStatus( numCustomer ); } );
             /// задаем объект статуса создания заказов
             mNumOrder_ = new Progress < int > ( numOrder => { setOrdersStatus( numOrder ); } );
-        }
-
-        /// <summary>
-        /// метод обработки нажатия на кнопку "Подключение к БД"
-        /// </summary>
-        /// <param name="sender">объект</param>
-        /// <param name="e">событие</param>
-        private void DbConnBtn_Click(object sender, RoutedEventArgs e)
-        {
-            /// инициализируем класс логики подключения к БД/серверу
-            DbConnWindow dbConnWindow = new DbConnWindow();
-            /// отображаем виджет подключения к БД/серверу
-            dbConnWindow.Show();
         }
 
         /// <summary>
@@ -99,7 +86,7 @@ namespace PointExample.View
         private void DataGenBtn_Click(object sender, RoutedEventArgs e)
         {
             /// задаем объект логики подключения к БД/серверу
-            mDBConn_ = new ConncetionLogic();
+            mDBConn_ = new ConnectionLogic();
             /// задаем объект логики работы с таблицами в БД
             mLogicClass_ = new Logic( Convert.ToInt32( CustomerBlock.Text ), Convert.ToInt32( OrderBlock.Text ), mNumCustomer_, mNumOrder_ );
 

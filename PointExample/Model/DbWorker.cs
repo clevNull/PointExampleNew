@@ -318,5 +318,33 @@ namespace PointExample.Model
                 }
             }
         }
+
+        public SqlDataAdapter ExecuteDataQuery(SqlConnection conn, string queryStr)
+        {
+            /// инициализируем запрос в БД
+            SqlCommand query = new SqlCommand(queryStr, conn);
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter( query );
+
+            try
+            {
+                /// если подключение закрыто -> открываем подключение
+                if (conn.State != ConnectionState.Open)
+                    conn.Open();
+            }
+            /// отлавливаем исключение
+            catch (System.Exception ex)
+            /// выдаем исключение
+            { throw ex; }
+            /// выполняем очистку всех ресурсов, выделенных в блоке try
+            finally
+            {
+                /// если подключение открыто -> закрываем подключение
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+            }
+
+            return sqlDataAdapter;
+        }
     } 
 }

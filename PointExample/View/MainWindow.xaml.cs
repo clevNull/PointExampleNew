@@ -12,7 +12,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data;
 
+using PointExample.Logicum;
+
+/// <summary>
+/// пространство имен Представление
+/// </summary>
 namespace PointExample.View
 {
     /// <summary>
@@ -20,12 +26,20 @@ namespace PointExample.View
     /// </summary>
     /// 
     public partial class MainWindow : Window
-    {        
+    {
+        /// <summary>
+        /// конструктор по умолчанию
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// метод обработки нажатия на кнопку "Подключение к БД"
+        /// </summary>
+        /// <param name="sender">объект</param>
+        /// <param name="e">событие</param>
         private void dbConnBtn_Click(object sender, RoutedEventArgs e)
         {
             /// инициализируем класс логики подключения к БД/серверу
@@ -34,15 +48,32 @@ namespace PointExample.View
             dbConnWindow.Show();
         }
 
-        private void pbUpdateData_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void pbDataGen_Click(object sender, RoutedEventArgs e)
         {
             DataGenerationWindow dgWindow = new DataGenerationWindow();
             dgWindow.Show();
+        }
+
+        private void pbUpdateData_Click(object sender, RoutedEventArgs e)
+        {
+            customerDataGen();
+            orderDataGen();
+        }
+
+        private void customerDataGen()
+        {
+            ConnectionLogic connectionLogic = new ConnectionLogic();
+            Logic logic = new Logic();
+
+            UserGrid.DataContext = logic.getDataCustomers().DefaultView;
+        }
+
+        private void orderDataGen()
+        {
+            ConnectionLogic connectionLogic = new ConnectionLogic();
+            Logic logic = new Logic();
+
+            OrderGrid.DataContext = logic.getDataOrders().DefaultView;
         }
     }
 }

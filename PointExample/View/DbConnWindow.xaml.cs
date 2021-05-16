@@ -28,7 +28,7 @@ namespace PointExample.View
         /// <summary>
         /// инициализируем класс логики подключения к БД/серверу
         /// </summary>
-        ConncetionLogic DbConn = new ConncetionLogic();
+        ConnectionLogic DbConn = new ConnectionLogic();
         /// <summary>
         /// инициализируем класс логики работы с таблицами в БД
         /// </summary>
@@ -95,7 +95,7 @@ namespace PointExample.View
                     logicClass.TablesCreation();
                     /// выдаем сообщение об успешном создание БД
                     MessageBox.Show(
-                        "Создание БД " + nameDbBox.Text + " завершено успешно!",
+                        "Создание БД \"" + nameDbBox.Text + "\" завершено успешно!",
                         "Создание БД", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 /// отлавливаем исключение
@@ -124,7 +124,7 @@ namespace PointExample.View
                 try { logicClass.DbDeleting(nameDbBox.Text);
                     /// выдаем сообщение об успешном удалении БД
                     MessageBox.Show(
-                        "Удаление БД " + nameDbBox.Text + " завершено успешно!",
+                        "Удаление БД \"" + nameDbBox.Text + "\" завершено успешно!",
                         "Удаление БД", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 /// отлавливаем исключение

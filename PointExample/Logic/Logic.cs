@@ -1,5 +1,6 @@
 ﻿using PointExample.Model;
 using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace PointExample.Logicum
     /// <summary>
     /// класс логики подключения к БД/серверу
     /// </summary>
-    public class ConncetionLogic
+    public class ConnectionLogic
     {
         /// <summary>
         /// объект параметров подключения к БД/серверу
@@ -342,7 +343,7 @@ namespace PointExample.Logicum
                         mNumCustomer_.Report( Convert.ToInt32( numUser ) );
 
                         /// пауза в процессе, для корректоного отображения прогресса в форме отображения создания заказчиков
-                        Thread.Sleep(100);
+                        //Thread.Sleep(100);
                     }
                 }
                 /// выдаем сообщение об отсутствии подключения к БД
@@ -412,7 +413,7 @@ namespace PointExample.Logicum
                         mNumOrder_.Report( Convert.ToInt32( numOrder ) );
 
                         /// пауза в процессе, для корректоного отображения прогресса в форме отображения создания заказов
-                        Thread.Sleep(10);
+                        //Thread.Sleep(10);
                     }
                 }
                 /// выдаем сообщение об отсутствии подключения к БД
@@ -422,6 +423,60 @@ namespace PointExample.Logicum
             catch (System.Exception ex)
             /// выдаем исключение
             { throw ex; }
+        }
+
+        public DataTable getDataOrders()
+        {
+            /// инициализируем объект подключения к БД
+            var dbConn = App.DbConn;
+
+            DataTable ordersDataTable = new DataTable( "OrdersData" );
+
+            try
+            {
+                /// проверка на подключение к БД
+                if ( dbConn != null )
+                {
+                    /// инициализируем строку запроса заполнения таблицы заказов
+                    string queryDataOrders = "SELECT ID,CustomerID,OrderDate,OrderName,Price FROM dbo.Orders";
+                    mDBWorker.ExecuteDataQuery( dbConn, queryDataOrders ).Fill( ordersDataTable );
+                }
+                /// выдаем сообщение об отсутствии подключения к БД
+                else { Exception ex = new Exception( "Database connection is empty" ); }
+            }
+            /// отлавливаем исключение
+            catch ( System.Exception ex )
+            /// выдаем исключение
+            { throw ex; }
+
+            return ordersDataTable;
+        }
+
+        public DataTable getDataCustomers()
+        {
+            /// инициализируем объект подключения к БД
+            var dbConn = App.DbConn;
+
+            DataTable customersDataTable = new DataTable( "CustomersData" );
+
+            try
+            {
+                /// проверка на подключение к БД
+                if ( dbConn != null )
+                {
+                    /// инициализируем строку запроса заполнения таблицы заказов
+                    string queryDataCustomers = "SELECT ID,LastName,FirstName,MiddleName,Sex,BirthDate,RegistrationDate FROM dbo.Customers";
+                    mDBWorker.ExecuteDataQuery( dbConn, queryDataCustomers ).Fill( customersDataTable );
+                }
+                /// выдаем сообщение об отсутствии подключения к БД
+                else { Exception ex = new Exception( "Database connection is empty" ); }
+            }
+            /// отлавливаем исключение
+            catch ( System.Exception ex )
+            /// выдаем исключение
+            { throw ex; }
+
+            return customersDataTable;
         }
     }
 }
