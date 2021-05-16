@@ -254,9 +254,9 @@ namespace PointExample.Model
             }
 
         }
-        
+
         /// <summary>
-        /// метод выполнения запроса в БД
+        /// метод выполнения запроса в БД ( INSERT )
         /// </summary>
         /// <param name="conn">объект подключения</param>
         /// <param name="queryStr">строка запроса</param>
@@ -287,7 +287,7 @@ namespace PointExample.Model
         }
 
         /// <summary>
-        /// метод выполнения потоковых запросов в БД
+        /// метод выполнения потоковых запросов в БД ( INSERT )
         /// </summary>
         /// <param name="conn">объект подключения</param>
         /// <param name="cmd">объект запроса</param>
@@ -319,11 +319,17 @@ namespace PointExample.Model
             }
         }
 
+        /// <summary>
+        /// метод выполнения запроса в БД ( SELECT )
+        /// </summary>
+        /// <param name="conn">объект подключения</param>
+        /// <param name="queryStr">строка запроса</param>
+        /// <returns>адаптер данных</returns>
         public SqlDataAdapter ExecuteDataQuery(SqlConnection conn, string queryStr)
         {
             /// инициализируем запрос в БД
             SqlCommand query = new SqlCommand(queryStr, conn);
-
+            /// инициализируем адаптер данных для запроса в БД
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter( query );
 
             try
@@ -343,7 +349,7 @@ namespace PointExample.Model
                 if (conn.State == ConnectionState.Open)
                     conn.Close();
             }
-
+            /// возвращаем адаптер данных
             return sqlDataAdapter;
         }
     } 

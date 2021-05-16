@@ -21,7 +21,7 @@ using PointExample.Logicum;
 namespace PointExample.View
 {
     /// <summary>
-    /// класс описания DataGenerationWindow
+    /// класс генерации данных для БД
     /// </summary>
     public partial class DataGenerationWindow : Window
     {

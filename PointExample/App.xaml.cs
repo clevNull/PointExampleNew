@@ -7,42 +7,45 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Windows;
 
-
+/// <summary>
+/// пространство имен Базовое
+/// </summary>
 namespace PointExample
 {
     /// <summary>
-    /// Логика взаимодействия для App.xaml
+    /// класс Базовый
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        ///  объявляем подключения к БД
+        /// </summary>
         static SqlConnection dbConn;
+        /// <summary>
+        /// объявляем подключения к серверу
+        /// </summary>
         static SqlConnection srvConn;
 
+        /// <summary>
+        /// метод получения/задания объекта подключения к БД
+        /// </summary>
         public static SqlConnection DbConn
         {
+            /// метод получения объекта подключения к БД
             get { return dbConn; }
-            set
-            {
-                dbConn = value;
-                /*if (dbConn == null)
-                {  }
-                else
-                { dbConn.ConnectionString = value.ConnectionString; }*/
-            }
+            /// метод задания объекта подключения к БД
+            set { dbConn = value; }
         }
+
+        /// <summary>
+        /// метод получения/задания объекта подключения к серверу
+        /// </summary>
         public static SqlConnection SrvConn
         {
+            /// метод получения объекта подключения к серверу
             get { return srvConn; }
-            set
-            {
-                srvConn = value;
-                /*if (srvConn == null)
-                { //srvConn = new SqlConnection(value.ConnectionString);
-                    
-                }
-                else
-                { srvConn.ConnectionString = value.ConnectionString; }*/
-            }
+            /// метод задания объекта подключения к серверу
+            set { srvConn = value; }
         }
     }
 }

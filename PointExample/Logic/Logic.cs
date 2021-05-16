@@ -28,12 +28,17 @@ namespace PointExample.Logicum
         /// <param name="pass">пароль юзера</param>
         public void SrvConnect(string host, string port, string username, string pass)
         {
-            /// инициализируем объект параметров подключения к серверу
+            /// задаем объект параметров подключения к серверу
             dbParams = new DbParams();
+            /// задаем хост
             dbParams.Host = host;
+            /// задаем порт
             dbParams.Port = port;
+            /// задаем наименование БД
             dbParams.DbName = "";
+            /// задаем наименование юзера
             dbParams.UserName = username;
+            /// задаем пароль юзера
             dbParams.Pass = pass;
             /// задаем подключение к серверу
             try { App.SrvConn = ConnectionClass.ConnectToServer(dbParams); }
@@ -43,14 +48,19 @@ namespace PointExample.Logicum
             { throw ex; }
         }
 
-        public void DbConnect(string source, string port, string dbName, string username, string pass)
+        public void DbConnect(string host, string port, string dbName, string username, string pass)
         {
-            /// инициализируем объект параметров подключения к БД
+            /// задаем объект параметров подключения к БД
             dbParams = new DbParams();
-            dbParams.Host = source;
+            /// задаем хост
+            dbParams.Host = host;
+            /// задаем порт
             dbParams.Port = port;
+            /// задаем наименование БД
             dbParams.DbName = dbName;
+            /// задаем наименование юзера
             dbParams.UserName = username;
+            /// задаем пароль юзера
             dbParams.Pass = pass;
             /// задаем подключение к БД
             try { App.DbConn = ConnectionClass.ConnectToDb(dbParams); }
@@ -308,7 +318,7 @@ namespace PointExample.Logicum
                         /// задаем пареметр запроса в БД -> идентификатор заказчика
                         cmd.Parameters.AddWithValue("@arg1", i);
                         /// выбираем пол заказчика ( случайно )
-                        if ( rnd.Next(0, 100) < 39 )
+                        if ( Convert.ToBoolean( rnd.Next(0, 2) ) )
                         {
                             /// задаем пареметр запроса в БД -> фамилия заказчика ( мужские )
                             cmd.Parameters.AddWithValue("@arg2", mMaleLastNames_.GetValue(rnd.Next(10)));
@@ -343,7 +353,7 @@ namespace PointExample.Logicum
                         mNumCustomer_.Report( Convert.ToInt32( numUser ) );
 
                         /// пауза в процессе, для корректоного отображения прогресса в форме отображения создания заказчиков
-                        //Thread.Sleep(100);
+                        Thread.Sleep(100);
                     }
                 }
                 /// выдаем сообщение об отсутствии подключения к БД
@@ -415,7 +425,7 @@ namespace PointExample.Logicum
                         mNumOrder_.Report( Convert.ToInt32( numOrder ) );
 
                         /// пауза в процессе, для корректоного отображения прогресса в форме отображения создания заказов
-                        //Thread.Sleep(10);
+                        Thread.Sleep(10);
                     }
                 }
                 /// выдаем сообщение об отсутствии подключения к БД
@@ -427,11 +437,15 @@ namespace PointExample.Logicum
             { throw ex; }
         }
 
+        /// <summary>
+        /// метода получения таблицы заказчиков
+        /// </summary>
+        /// <returns>объект таблицы заказчиков</returns>
         public DataTable getDataCustomers()
         {
             /// инициализируем объект подключения к БД
             var dbConn = App.DbConn;
-
+            /// инициализируем объект таблицы заказчиков
             DataTable customersDataTable = new DataTable( "CustomersData" );
 
             try
@@ -443,6 +457,7 @@ namespace PointExample.Logicum
                     string queryDataCustomers =
                         "SELECT ID,LastName,FirstName,MiddleName,Sex,BirthDate,RegistrationDate " +
                         "FROM dbo.Customers";
+                    /// запрашиваем таблицу заказчиков из БД и заполняем объект таблицы заказчиков
                     mDBWorker.ExecuteDataQuery( dbConn, queryDataCustomers ).Fill( customersDataTable );
                 }
                 /// выдаем сообщение об отсутствии подключения к БД
@@ -452,15 +467,19 @@ namespace PointExample.Logicum
             catch ( System.Exception ex )
             /// выдаем исключение
             { throw ex; }
-
+            /// возвращаем объект таблицы заказчиков
             return customersDataTable;
         }
 
+        /// <summary>
+        /// метода получения таблицы заказов
+        /// </summary>
+        /// <returns>объект таблицы заказов</returns>
         public DataTable getDataOrders()
         {
             /// инициализируем объект подключения к БД
             var dbConn = App.DbConn;
-
+            /// инициализируем объект таблицы заказов
             DataTable ordersDataTable = new DataTable( "OrdersData" );
 
             try
@@ -472,6 +491,7 @@ namespace PointExample.Logicum
                     string queryDataOrders = 
                         "SELECT ID,CustomerID,OrderDate,OrderName,Price " +
                         "FROM dbo.Orders";
+                    /// запрашиваем таблицу заказов из БД и заполняем объект таблицы заказов
                     mDBWorker.ExecuteDataQuery( dbConn, queryDataOrders ).Fill( ordersDataTable );
                 }
                 /// выдаем сообщение об отсутствии подключения к БД
@@ -481,15 +501,19 @@ namespace PointExample.Logicum
             catch ( System.Exception ex )
             /// выдаем исключение
             { throw ex; }
-
+            /// возвращаем объект таблицы заказов
             return ordersDataTable;
         }
 
+        /// <summary>
+        /// метода получения таблицы заказов по номеру заказчика
+        /// </summary>
+        /// <returns>объект таблицы заказов</returns>
         public DataTable getDataCustomOrders( int customerID )
         {
             /// инициализируем объект подключения к БД
             var dbConn = App.DbConn;
-
+            /// инициализируем объект таблицы заказов
             DataTable ordersDataTable = new DataTable( "OrdersData" );
 
             try
@@ -497,10 +521,11 @@ namespace PointExample.Logicum
                 /// проверка на подключение к БД
                 if ( dbConn != null )
                 {
-                    /// инициализируем строку запроса заполнения таблицы заказов
+                    /// инициализируем строку запроса заполнения таблицы заказов по номеру заказчика
                     string queryDataCustomOrders =
                         "SELECT ID,CustomerID,OrderDate,OrderName,Price " +
                         "FROM dbo.Orders WHERE CustomerID = " + customerID.ToString();
+                    /// запрашиваем таблицу заказов из БД и заполняем объект таблицы заказов
                     mDBWorker.ExecuteDataQuery( dbConn, queryDataCustomOrders ).Fill( ordersDataTable );
                 }
                 /// выдаем сообщение об отсутствии подключения к БД
@@ -510,7 +535,7 @@ namespace PointExample.Logicum
             catch ( System.Exception ex )
             /// выдаем исключение
             { throw ex; }
-
+            /// возвращаем объект таблицы заказов
             return ordersDataTable;
         }
     }

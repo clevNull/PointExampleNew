@@ -13,17 +13,16 @@
                     <ColumnDefinition Width="384*"/>
                     <ColumnDefinition Width="384*"/>
                 </Grid.ColumnDefinitions>
-                <Label Content="Пользователи" HorizontalAlignment="Left" Width="110"/>
+                <Label Content="Покупатели" HorizontalAlignment="Left" Width="110"/>
                 <Label Content="Заказы" HorizontalAlignment="Left" Width="110" Grid.Column="1"/>
                 <DataGrid x:Name="UserGrid" Margin="10,40,10,10" AutoGenerateColumns="true" CanUserAddRows="false" IsReadOnly="True" ItemsSource="{Binding}" SelectionChanged="UserGrid_SelectionChanged"/>
                 <DataGrid x:Name="OrderGrid" Grid.Column="1" Margin="10,40,10,10" AutoGenerateColumns="True" CanUserAddRows="false" IsReadOnly="True" ItemsSource="{Binding}"/>
             </Grid>
         </GroupBox>
         <Grid Margin="10,0,10,10" Height="32" VerticalAlignment="Bottom">
-            <StatusBar x:Name="SttsBar" Margin="0,0,373,0" />
-            <Button x:Name="pbUpdateData" Content="Обновить" Margin="0,-1,293,0" Click="pbUpdateData_Click" HorizontalAlignment="Right" Width="75"/>
-            <Button x:Name="pbDataGen" Content="Формирование данных" Margin="0,0,149,0" Click="pbDataGen_Click" HorizontalAlignment="Right" Width="139"/>
-            <Button x:Name="dbConnBtn" Content="Подключение к БД" Click="dbConnBtn_Click" HorizontalAlignment="Right" Width="144"/>
+            <Button x:Name="pbDataGen" Content="Формирование данных" Click="pbDataGen_Click" HorizontalAlignment="Left" Width="256"/>
+            <Button x:Name="pbUpdateData" Content="Загрузить данные" Click="pbUpdateData_Click" HorizontalAlignment="Center" Width="128"/>
+            <Button x:Name="dbConnBtn" Content="Подключение к БД" Click="dbConnBtn_Click" HorizontalAlignment="Right" Width="256"/>
         </Grid>
     </Grid>
 </Window>

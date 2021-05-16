@@ -21,7 +21,7 @@ using PointExample.Logicum;
 namespace PointExample.View
 {
     /// <summary>
-    /// класс описания DbConnWindow
+    /// класс подключения к БД/серверу
     /// </summary>
     public partial class DbConnWindow : Window
     {
@@ -32,7 +32,7 @@ namespace PointExample.View
         /// <summary>
         /// инициализируем класс логики работы с таблицами в БД
         /// </summary>
-        Logic logicClass = new Logic();
+        Logic dbWorkLogic = new Logic();
 
         /// <summary>
         /// конструктор по умолчанию
@@ -88,11 +88,11 @@ namespace PointExample.View
                 try
                 {
                     /// создаем БД
-                    logicClass.DbCreation(nameDbBox.Text);
+                    dbWorkLogic.DbCreation(nameDbBox.Text);
                     /// подключаемся к БД
                     DbConn.DbConnect(addrBox.Text, portBox.Text, nameDbBox.Text, userNameBox.Text, passwordBox.Password);
                     /// создаем таблицы в БД
-                    logicClass.TablesCreation();
+                    dbWorkLogic.TablesCreation();
                     /// выдаем сообщение об успешном создание БД
                     MessageBox.Show(
                         "Создание БД \"" + nameDbBox.Text + "\" завершено успешно!",
@@ -121,7 +121,7 @@ namespace PointExample.View
             if (nameDbBox.Text != "")
             {
                 /// удаляем БД
-                try { logicClass.DbDeleting(nameDbBox.Text);
+                try { dbWorkLogic.DbDeleting(nameDbBox.Text);
                     /// выдаем сообщение об успешном удалении БД
                     MessageBox.Show(
                         "Удаление БД \"" + nameDbBox.Text + "\" завершено успешно!",
