@@ -15,8 +15,8 @@
                 </Grid.ColumnDefinitions>
                 <Label Content="Пользователи" HorizontalAlignment="Left" Width="110"/>
                 <Label Content="Заказы" HorizontalAlignment="Left" Width="110" Grid.Column="1"/>
-                <DataGrid x:Name="UserGrid" Margin="10,40,10,10" AutoGenerateColumns="true" CanUserAddRows="false" ItemsSource="{Binding}"/>
-                <DataGrid x:Name="OrderGrid" Grid.Column="1" Margin="10,40,10,10" AutoGenerateColumns="True" CanUserAddRows="false" ItemsSource="{Binding}"/>
+                <DataGrid x:Name="UserGrid" Margin="10,40,10,10" AutoGenerateColumns="true" CanUserAddRows="false" IsReadOnly="True" ItemsSource="{Binding}" SelectionChanged="UserGrid_SelectionChanged"/>
+                <DataGrid x:Name="OrderGrid" Grid.Column="1" Margin="10,40,10,10" AutoGenerateColumns="True" CanUserAddRows="false" IsReadOnly="True" ItemsSource="{Binding}"/>
             </Grid>
         </GroupBox>
         <Grid Margin="10,0,10,10" Height="32" VerticalAlignment="Bottom">

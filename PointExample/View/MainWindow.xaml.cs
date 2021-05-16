@@ -27,12 +27,16 @@ namespace PointExample.View
     /// 
     public partial class MainWindow : Window
     {
+        Logic dbWorkLogic;
+
         /// <summary>
         /// конструктор по умолчанию
         /// </summary>
         public MainWindow()
         {
             InitializeComponent();
+
+            dbWorkLogic = new Logic();
         }
 
         /// <summary>
@@ -62,16 +66,21 @@ namespace PointExample.View
 
         private void customerDataGen()
         {
-            Logic logic = new Logic();
 
-            UserGrid.DataContext = logic.getDataCustomers().DefaultView;
+            UserGrid.DataContext = dbWorkLogic.getDataCustomers().DefaultView;
         }
 
         private void orderDataGen()
         {
-            Logic logic = new Logic();
 
-            OrderGrid.DataContext = logic.getDataOrders().DefaultView;
+            OrderGrid.DataContext = dbWorkLogic.getDataOrders().DefaultView;
+        }
+
+        private void UserGrid_SelectionChanged( object sender, SelectionChangedEventArgs e )
+        {
+            DataRow customerRow = ( ( DataRowView ) ( UserGrid.SelectedValue ) ).Row;
+
+            OrderGrid.DataContext = dbWorkLogic.getDataCustomOrders( Convert.ToInt32( customerRow["ID"] ) ).DefaultView;
         }
     }
 }
