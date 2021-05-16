@@ -62,7 +62,6 @@ namespace PointExample.View
 
         private void customerDataGen()
         {
-            ConnectionLogic connectionLogic = new ConnectionLogic();
             Logic logic = new Logic();
 
             UserGrid.DataContext = logic.getDataCustomers().DefaultView;
@@ -70,7 +69,6 @@ namespace PointExample.View
 
         private void orderDataGen()
         {
-            ConnectionLogic connectionLogic = new ConnectionLogic();
             Logic logic = new Logic();
 
             OrderGrid.DataContext = logic.getDataOrders().DefaultView;
